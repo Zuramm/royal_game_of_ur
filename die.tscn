@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://0fnap7htifns"]
+
+[ext_resource type="Script" path="res://die.gd" id="1_7q7w1"]
+[ext_resource type="PackedScene" uid="uid://b1kr5pyms84e" path="res://models/PieceProc/Die.glb" id="2_u1lxb"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lkfj6"]
+friction = 0.6
+rough = true
+bounce = 0.16
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_bmj35"]
+points = PackedVector3Array(2.08165e-12, 0.5, 2.08165e-12, 2.08165e-12, -0.167, 0.471, 0.408, -0.167, -0.236, -0.408, -0.167, -0.236)
+
+[node name="Die" type="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.7083, 1.62928, 2.2451)
+physics_material_override = SubResource("PhysicsMaterial_lkfj6")
+script = ExtResource("1_7q7w1")
+
+[node name="Die" parent="." instance=ExtResource("2_u1lxb")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("ConvexPolygonShape3D_bmj35")

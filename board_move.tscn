@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://b7gs0dty2ntd0"]
+
+[ext_resource type="Script" path="res://board_move.gd" id="1_7741b"]
+[ext_resource type="Material" uid="uid://b657w51ry45wn" path="res://move_material.tres" id="2_fyvdp"]
+[ext_resource type="PackedScene" uid="uid://lauh27b0jww7" path="res://highlight.tscn" id="3_w1xeu"]
+
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_2cv20"]
+resource_local_to_scene = true
+
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_betbd"]
+resource_local_to_scene = true
+
+[node name="BoardMove" type="Area3D"]
+script = ExtResource("1_7741b")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 0.1, 2.08165e-12)
+material_override = ExtResource("2_fyvdp")
+cast_shadow = 0
+mesh = SubResource("ImmediateMesh_2cv20")
+skeleton = NodePath("")
+
+[node name="Highlight" parent="." instance=ExtResource("3_w1xeu")]
+transform = Transform3D(1, -6.97584e-16, -1.52462e-23, -1.5246e-23, -4.3712e-08, 1.00002, -6.97574e-16, -1.00001, -4.37121e-08, 2.08165e-12, -0.01, 2.08165e-12)
+mesh = SubResource("ImmediateMesh_betbd")

@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://bk53htttkqvy"]
+
+[ext_resource type="PackedScene" uid="uid://ctex7xtnkrm5x" path="res://piece.tscn" id="1_ysixs"]
+[ext_resource type="PackedScene" uid="uid://c4l4xxkexhlbe" path="res://models/PieceProc/BlackPiece.glb" id="2_b5oaw"]
+
+[node name="BlackPiece" instance=ExtResource("1_ysixs")]
+
+[node name="BlackPiece" parent="." index="1" instance=ExtResource("2_b5oaw")]
+transform = Transform3D(0.833, 0, 0, 0, 0.833, 0, 0, 0, 0.833, 0, 0, 0)

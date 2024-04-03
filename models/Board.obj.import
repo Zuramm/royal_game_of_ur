@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://qagdvyxi4ec6"
+path="res://.godot/imported/Board.obj-0e61b6f105f0a705f2f3b31aac5a37fb.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Board.obj-0e61b6f105f0a705f2f3b31aac5a37fb.mesh"]
+
+source_file="res://models/Board.obj"
+dest_files=["res://.godot/imported/Board.obj-0e61b6f105f0a705f2f3b31aac5a37fb.mesh", "res://.godot/imported/Board.obj-0e61b6f105f0a705f2f3b31aac5a37fb.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

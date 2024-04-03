@@ -1,0 +1,50 @@
+[gd_scene load_steps=7 format=3 uid="uid://d2gssftyv4grm"]
+
+[ext_resource type="Script" path="res://test/orbit.gd" id="1_jq4kk"]
+[ext_resource type="PackedScene" uid="uid://b7gs0dty2ntd0" path="res://board_move.tscn" id="1_p7m80"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_2mbhi"]
+sky_top_color = Color(0.396078, 0.698039, 0.901961, 1)
+sky_horizon_color = Color(0.647059, 0.654902, 0.670588, 1)
+ground_bottom_color = Color(0.941176, 0.839216, 0.72549, 1)
+
+[sub_resource type="Sky" id="Sky_4svkb"]
+sky_material = SubResource("ProceduralSkyMaterial_2mbhi")
+
+[sub_resource type="Environment" id="Environment_ft7ve"]
+background_mode = 2
+sky = SubResource("Sky_4svkb")
+ambient_light_source = 3
+ambient_light_color = Color(0.937255, 0.843137, 0.733333, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_42e17"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Node3D" type="Node3D" parent="."]
+script = ExtResource("1_jq4kk")
+
+[node name="Camera3D" type="Camera3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 4)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ft7ve")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.308751, 0.951143, 0, -0.951143, 0.308751, 0, 0, 0)
+light_energy = 2.0
+
+[node name="Ground" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+light_color = Color(0.941176, 0.839216, 0.72549, 1)
+sky_mode = 1
+
+[node name="Sky" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+light_color = Color(0.396078, 0.698039, 0.901961, 1)
+sky_mode = 1
+
+[node name="BoardMove" parent="." instance=ExtResource("1_p7m80")]
+positions = Array[Vector3]([Vector3(0, 0, 0), Vector3(1, 2.08165e-12, 2.08165e-12), Vector3(1, 2.08165e-12, 1), Vector3(2.08165e-12, 2.08165e-12, 1)])
+end_position = 3
+board_shape = SubResource("BoxShape3D_42e17")

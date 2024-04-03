@@ -1,0 +1,140 @@
+[gd_scene load_steps=17 format=3 uid="uid://bf0sjvijvf8oa"]
+
+[ext_resource type="Script" path="res://game.gd" id="1_qc12o"]
+[ext_resource type="PackedScene" uid="uid://cyakx4s37d20g" path="res://white_piece.tscn" id="2_ktw4a"]
+[ext_resource type="PackedScene" uid="uid://cjj7dm6uwrcf4" path="res://models/PieceProc/Board.glb" id="2_u34ss"]
+[ext_resource type="PackedScene" uid="uid://bk53htttkqvy" path="res://black_piece.tscn" id="3_ciayw"]
+[ext_resource type="Script" path="res://game_logic.gd" id="5_5307g"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0mpfn"]
+size = Vector3(1, 0.2, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_33g57"]
+size = Vector3(3, 1, 2)
+
+[sub_resource type="LabelSettings" id="LabelSettings_8paqi"]
+font_size = 48
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yi38b"]
+bg_color = Color(0.141176, 0.239216, 0.270588, 0.858824)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_6jldu"]
+
+[sub_resource type="Sky" id="Sky_vx0t0"]
+sky_material = SubResource("ProceduralSkyMaterial_6jldu")
+
+[sub_resource type="Environment" id="Environment_hgoy7"]
+background_mode = 2
+sky = SubResource("Sky_vx0t0")
+ambient_light_source = 3
+ambient_light_energy = 10.0
+tonemap_mode = 2
+ssao_enabled = true
+ssil_enabled = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_cx2al"]
+size = Vector3(8.2, 0.5, 3.2)
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_7pvwk"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qlkad"]
+albedo_color = Color(0.141176, 0.239216, 0.270588, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_a5hur"]
+material = SubResource("StandardMaterial3D_qlkad")
+size = Vector2(50, 50)
+orientation = 1
+
+[node name="Node3D" type="Node3D" node_paths=PackedStringArray("game_logic")]
+script = ExtResource("1_qc12o")
+game_logic = NodePath("GameLogic")
+white_piece = ExtResource("2_ktw4a")
+black_piece = ExtResource("3_ciayw")
+board_shape = SubResource("BoxShape3D_0mpfn")
+board_offset = Vector3(2.08165e-12, 0.1, 2.08165e-12)
+left_shape = SubResource("BoxShape3D_33g57")
+left_position = Vector3(-3, -0.499, 2.5)
+
+[node name="GameLogic" type="Node" parent="."]
+script = ExtResource("5_5307g")
+
+[node name="InGame" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+grow_horizontal = 2
+
+[node name="RollLabel" type="Label" parent="InGame"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -18.135
+offset_top = 20.0
+offset_right = 21.865
+offset_bottom = 43.0
+grow_horizontal = 2
+label_settings = SubResource("LabelSettings_8paqi")
+
+[node name="GameOver" type="PanelContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_yi38b")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameOver"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="WinnerLabel" type="Label" parent="GameOver/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "White won"
+label_settings = SubResource("LabelSettings_8paqi")
+
+[node name="Button" type="Button" parent="GameOver/VBoxContainer"]
+layout_mode = 2
+text = "Play again"
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.918688, 0.178096, 0.352554, -0.394984, 0.41423, 0.820001, -4.70678e-09, -0.892578, 0.450893, 0, -4.76837e-07, -2.38419e-07)
+shadow_enabled = true
+directional_shadow_fade_start = 0.512
+directional_shadow_max_distance = 14.2
+directional_shadow_pancake_size = 4.6
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, -6.50845e-16, 1.74393e-16, 1.74393e-16, 0.5, 0.866025, -6.50845e-16, -0.866025, 0.5, -0.5, 4, 3)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_hgoy7")
+
+[node name="Board" parent="." instance=ExtResource("2_u34ss")]
+transform = Transform3D(0.833, 0, 0, 0, 0.833, 0, 0, 0, 0.833, 2.08165e-12, -0.5, 2.08165e-12)
+
+[node name="Board2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.25, 2.08165e-12)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Board2"]
+shape = SubResource("BoxShape3D_cx2al")
+
+[node name="WorldBoundry" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, -0.5, 2.08165e-12)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WorldBoundry"]
+shape = SubResource("WorldBoundaryShape3D_7pvwk")
+
+[node name="Floor" type="MeshInstance3D" parent="WorldBoundry"]
+mesh = SubResource("QuadMesh_a5hur")
+skeleton = NodePath("../..")
+
+[connection signal="game_ended" from="GameLogic" to="." method="_on_game_logic_game_ended"]
+[connection signal="pressed" from="GameOver/VBoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="mouse_entered" from="Board2" to="." method="_on_board_2_mouse_entered"]
