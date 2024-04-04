@@ -27,16 +27,16 @@ jobs:
       - name: Web Build
         run: |
           mkdir -v -p build/web
-          godot --headless --verbose --export-release "HTML5" build/web/index.html
+          godot --headless --verbose --export-release "Web" build/web/index.html
           ls build
       - name: Archive Web
         run: |
           tar cfvz build/web.tar.gz build/web
-      - name: Release
-        uses: softprops/action-gh-release@v2
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v1
         with:
-          files: |
-            build/web.tar.gz
+          name: web.tar.gz
+          path: build/web.tar.gz
   export-android:
     name: Android Export
     runs-on: ubuntu-20.04
@@ -55,9 +55,22 @@ jobs:
         run: |
           mkdir -v -p build/
           godot --headless --verbose --export-release "Android" build/royal_game_of_ur.apk
-          ls build
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: royal_game_of_ur.apk
+          path: build/royal_game_of_ur.apk
+  create-release:
+    name: Create Release
+    runs-on: ubuntu-20.04
+    needs: [export-web, export-android]
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            build/royal_game_of_ur.apk
+            web.tar.gz
+            royal_game_of_ur.apk
+    
