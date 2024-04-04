@@ -28,6 +28,8 @@ jobs:
         run: |
           mkdir -v -p build/web
           godot --headless --verbose --export-release "HTML5" build/web/index.html
+          ls
+          ls ..
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
         with:
@@ -51,6 +53,8 @@ jobs:
         run: |
           mkdir -v -p build/android
           godot --headless --verbose --export-release "Android" build/royal_game_of_ur.apk
+          ls
+          ls ..
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
         with:
