@@ -17,7 +17,7 @@ jobs:
       image: barichello/godot-ci:4.2.1
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           lfs: true
       - name: Setup
@@ -30,10 +30,10 @@ jobs:
           godot --headless --verbose --export-release "HTML5" build/web/index.html
           pwd
       - name: Upload Artifact
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         with:
           name: web
-          path: .
+          path: build
   export-android:
     name: Android Export
     runs-on: ubuntu-20.04
@@ -41,7 +41,7 @@ jobs:
       image: barichello/godot-ci:4.2.1
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           lfs: true
       - name: Setup
@@ -54,7 +54,7 @@ jobs:
           godot --headless --verbose --export-release "Android" build/royal_game_of_ur.apk
           pwd
       - name: Upload Artifact
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         with:
           name: royal_game_of_ur.apk
-          path: .
+          path: build
