@@ -33,7 +33,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: web
-          path: ../build/web
+          path: .
   export-android:
     name: Android Export
     runs-on: ubuntu-20.04
@@ -57,5 +57,4 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: royal_game_of_ur.apk
-          path: ../build/royal_game_of_ur.apk
-
+          path: .
