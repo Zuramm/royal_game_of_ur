@@ -28,6 +28,7 @@ jobs:
         run: |
           mkdir -v -p build/web
           godot --headless --verbose --export-release "HTML5" build/web/index.html
+          ls build
       - name: Archive Web
         run: |
           tar cfvz build/web.tar.gz build/web
@@ -52,8 +53,9 @@ jobs:
           mv /root/.local/share/godot/export_templates/4.2.1.stable ~/.local/share/godot/export_templates/4.2.1.stable
       - name: Android Build
         run: |
-          mkdir -v -p build/android
+          mkdir -v -p build/
           godot --headless --verbose --export-release "Android" build/royal_game_of_ur.apk
+          ls build
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
