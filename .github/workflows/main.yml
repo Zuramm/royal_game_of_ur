@@ -47,13 +47,13 @@ jobs:
         run: |
           mkdir -v -p ~/.local/share/godot/export_templates/
           mv /root/.local/share/godot/export_templates/4.2.1.stable ~/.local/share/godot/export_templates/4.2.1.stable
-      - name: Web Build
+      - name: Android Build
         run: |
           mkdir -v -p build/android
-          godot --headless --verbose --export-release "Android" ../build/web/index.html
+          godot --headless --verbose --export-release "Android" ../build/royal_game_of_ur.apk
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
         with:
-          name: android
-          path: build/android
+          name: royal_game_of_ur.apk
+          path: build/royal_game_of_ur.apk
 
