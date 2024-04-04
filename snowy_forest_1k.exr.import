@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://d0fcjbgjwkd4v"
 path.bptc="res://.godot/imported/snowy_forest_1k.exr-eba992ee7cfaf1e8ce1f4bde41d61370.bptc.ctex"
+path.astc="res://.godot/imported/snowy_forest_1k.exr-eba992ee7cfaf1e8ce1f4bde41d61370.astc.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://snowy_forest_1k.exr"
-dest_files=["res://.godot/imported/snowy_forest_1k.exr-eba992ee7cfaf1e8ce1f4bde41d61370.bptc.ctex"]
+dest_files=["res://.godot/imported/snowy_forest_1k.exr-eba992ee7cfaf1e8ce1f4bde41d61370.bptc.ctex", "res://.godot/imported/snowy_forest_1k.exr-eba992ee7cfaf1e8ce1f4bde41d61370.astc.ctex"]
 
 [params]
 
