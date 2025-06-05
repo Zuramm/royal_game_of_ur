@@ -157,4 +157,3 @@ func apply_move(move: Move):
 			game_ended.emit(current_player)
 	
 	_current_player_color = 1 - _current_player_color
-

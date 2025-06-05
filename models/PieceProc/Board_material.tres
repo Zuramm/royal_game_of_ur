@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" load_steps=4 format=3 uid="uid://cjp43s2cx5gvo"]
+
+[ext_resource type="Texture2D" uid="uid://dqft507oi0gbi" path="res://models/PieceProc/Board_BoardProcDiff2x.png" id="1_4qarv"]
+[ext_resource type="Texture2D" uid="uid://csa632xxixe7m" path="res://models/PieceProc/Board_BoardProcNormal2x.png" id="2_40pqt"]
+[ext_resource type="Texture2D" uid="uid://cgmfhynb3bjn" path="res://models/PieceProc/Board_BoardProcRoughness2x.png" id="3_kex0u"]
+
+[resource]
+albedo_texture = ExtResource("1_4qarv")
+roughness_texture = ExtResource("3_kex0u")
+normal_enabled = true
+normal_texture = ExtResource("2_40pqt")

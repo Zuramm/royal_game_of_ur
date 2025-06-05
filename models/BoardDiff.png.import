@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://d106yuj5kwtu"
 path.s3tc="res://.godot/imported/BoardDiff.png-edc64dd136757b028eac85833dc8c0a9.s3tc.ctex"
+path.etc2="res://.godot/imported/BoardDiff.png-edc64dd136757b028eac85833dc8c0a9.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://models/BoardDiff.png"
-dest_files=["res://.godot/imported/BoardDiff.png-edc64dd136757b028eac85833dc8c0a9.s3tc.ctex"]
+dest_files=["res://.godot/imported/BoardDiff.png-edc64dd136757b028eac85833dc8c0a9.s3tc.ctex", "res://.godot/imported/BoardDiff.png-edc64dd136757b028eac85833dc8c0a9.etc2.ctex"]
 
 [params]
 

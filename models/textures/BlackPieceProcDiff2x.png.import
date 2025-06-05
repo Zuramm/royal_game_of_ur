@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://i51sd8hah3qm"
 path.s3tc="res://.godot/imported/BlackPieceProcDiff2x.png-ef1e0b9577189e7ae5f36bf0f22265c3.s3tc.ctex"
+path.etc2="res://.godot/imported/BlackPieceProcDiff2x.png-ef1e0b9577189e7ae5f36bf0f22265c3.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://models/textures/BlackPieceProcDiff2x.png"
-dest_files=["res://.godot/imported/BlackPieceProcDiff2x.png-ef1e0b9577189e7ae5f36bf0f22265c3.s3tc.ctex"]
+dest_files=["res://.godot/imported/BlackPieceProcDiff2x.png-ef1e0b9577189e7ae5f36bf0f22265c3.s3tc.ctex", "res://.godot/imported/BlackPieceProcDiff2x.png-ef1e0b9577189e7ae5f36bf0f22265c3.etc2.ctex"]
 
 [params]
 

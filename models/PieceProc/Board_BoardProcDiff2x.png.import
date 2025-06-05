@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://dqft507oi0gbi"
 path.s3tc="res://.godot/imported/Board_BoardProcDiff2x.png-625a388eba1d303d3536a3ed24f46930.s3tc.ctex"
+path.etc2="res://.godot/imported/Board_BoardProcDiff2x.png-625a388eba1d303d3536a3ed24f46930.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={}
@@ -13,7 +14,7 @@ generator_parameters={}
 [deps]
 
 source_file="res://models/PieceProc/Board_BoardProcDiff2x.png"
-dest_files=["res://.godot/imported/Board_BoardProcDiff2x.png-625a388eba1d303d3536a3ed24f46930.s3tc.ctex"]
+dest_files=["res://.godot/imported/Board_BoardProcDiff2x.png-625a388eba1d303d3536a3ed24f46930.s3tc.ctex", "res://.godot/imported/Board_BoardProcDiff2x.png-625a388eba1d303d3536a3ed24f46930.etc2.ctex"]
 
 [params]
 

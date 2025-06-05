@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bivgyovfikdf"
 path.s3tc="res://.godot/imported/BlackPiece.png-5943f09c7faffbde27251f647eee8665.s3tc.ctex"
+path.etc2="res://.godot/imported/BlackPiece.png-5943f09c7faffbde27251f647eee8665.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://models/BlackPiece.png"
-dest_files=["res://.godot/imported/BlackPiece.png-5943f09c7faffbde27251f647eee8665.s3tc.ctex"]
+dest_files=["res://.godot/imported/BlackPiece.png-5943f09c7faffbde27251f647eee8665.s3tc.ctex", "res://.godot/imported/BlackPiece.png-5943f09c7faffbde27251f647eee8665.etc2.ctex"]
 
 [params]
 

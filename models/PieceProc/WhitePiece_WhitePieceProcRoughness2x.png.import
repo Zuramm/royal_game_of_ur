@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://6njdxbgq5dlk"
 path.s3tc="res://.godot/imported/WhitePiece_WhitePieceProcRoughness2x.png-9b5a82628909105a85e1caf70edf690d.s3tc.ctex"
+path.etc2="res://.godot/imported/WhitePiece_WhitePieceProcRoughness2x.png-9b5a82628909105a85e1caf70edf690d.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={}
@@ -13,7 +14,7 @@ generator_parameters={}
 [deps]
 
 source_file="res://models/PieceProc/WhitePiece_WhitePieceProcRoughness2x.png"
-dest_files=["res://.godot/imported/WhitePiece_WhitePieceProcRoughness2x.png-9b5a82628909105a85e1caf70edf690d.s3tc.ctex"]
+dest_files=["res://.godot/imported/WhitePiece_WhitePieceProcRoughness2x.png-9b5a82628909105a85e1caf70edf690d.s3tc.ctex", "res://.godot/imported/WhitePiece_WhitePieceProcRoughness2x.png-9b5a82628909105a85e1caf70edf690d.etc2.ctex"]
 
 [params]
 

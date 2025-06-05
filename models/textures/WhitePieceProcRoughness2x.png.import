@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://cad472c42bpru"
 path.s3tc="res://.godot/imported/WhitePieceProcRoughness2x.png-e79a80ac6020f6a44b93be28e4bc2752.s3tc.ctex"
+path.etc2="res://.godot/imported/WhitePieceProcRoughness2x.png-e79a80ac6020f6a44b93be28e4bc2752.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://models/textures/WhitePieceProcRoughness2x.png"
-dest_files=["res://.godot/imported/WhitePieceProcRoughness2x.png-e79a80ac6020f6a44b93be28e4bc2752.s3tc.ctex"]
+dest_files=["res://.godot/imported/WhitePieceProcRoughness2x.png-e79a80ac6020f6a44b93be28e4bc2752.s3tc.ctex", "res://.godot/imported/WhitePieceProcRoughness2x.png-e79a80ac6020f6a44b93be28e4bc2752.etc2.ctex"]
 
 [params]
 
