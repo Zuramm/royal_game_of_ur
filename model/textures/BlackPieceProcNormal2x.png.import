@@ -1,0 +1,36 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://b41g1v8iobwul"
+path.s3tc="res://.godot/imported/BlackPieceProcNormal2x.png-66ab0da1b8f78a305ce22fd18a9c9e4c.s3tc.ctex"
+path.etc2="res://.godot/imported/BlackPieceProcNormal2x.png-66ab0da1b8f78a305ce22fd18a9c9e4c.etc2.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
+}
+
+[deps]
+
+source_file="res://model/textures/BlackPieceProcNormal2x.png"
+dest_files=["res://.godot/imported/BlackPieceProcNormal2x.png-66ab0da1b8f78a305ce22fd18a9c9e4c.s3tc.ctex", "res://.godot/imported/BlackPieceProcNormal2x.png-66ab0da1b8f78a305ce22fd18a9c9e4c.etc2.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=1
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=1
+roughness/src_normal="res://models/textures/BlackPieceProcNormal2x.png"
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0

@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://2j4rtpb4hcmf"
+path="res://.godot/imported/WhitePiece.obj-82fb42d1fdaad077d5f5ffc5a0ba19bf.mesh"
+
+[deps]
+
+files=["res://.godot/imported/WhitePiece.obj-82fb42d1fdaad077d5f5ffc5a0ba19bf.mesh"]
+
+source_file="res://model/PieceReal/WhitePiece.obj"
+dest_files=["res://.godot/imported/WhitePiece.obj-82fb42d1fdaad077d5f5ffc5a0ba19bf.mesh", "res://.godot/imported/WhitePiece.obj-82fb42d1fdaad077d5f5ffc5a0ba19bf.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false
