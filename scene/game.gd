@@ -43,7 +43,7 @@ var positions: Array[Array] = [
 	black_positions,
 ]
 
-var current_positions: Array[Vector3] :
+var current_positions: Array[Vector3]:
 	get:
 		return positions[game_logic._current_player_color]
 
@@ -52,9 +52,9 @@ var current_positions: Array[Vector3] :
 @export var black_piece: PackedScene
 @export var pieces: int = 7
 
-@export var board_shape: Shape3D
+@export var board_shape: BoxShape3D
 @export var board_offset: Vector3
-@export var left_shape: Shape3D
+@export var left_shape: BoxShape3D
 @export var left_position: Vector3
 
 var wpl: Array[Node3D] = []
@@ -68,35 +68,47 @@ var pieces_left: Array[Array] = [wpl, bpl]
 var pieces_on_board: Array[Array] = [wpob, bpob]
 var pieces_safe: Array[Array] = [wps, bps]
 
-var current_pieces_left: Array[Node3D] :
+var current_pieces_left: Array[Node3D]:
 	get:
 		return pieces_left[game_logic._current_player_color]
 
-var opponent_pieces_left: Array[Node3D] :
+var opponent_pieces_left: Array[Node3D]:
 	get:
 		return pieces_left[1 - game_logic._current_player_color]
 
-var current_pieces_on_board: Array[Node3D] :
+var current_pieces_on_board: Array[Node3D]:
 	get:
 		return pieces_on_board[game_logic._current_player_color]
 
-var opponent_pieces_on_board: Array[Node3D] :
+var opponent_pieces_on_board: Array[Node3D]:
 	get:
 		return pieces_on_board[1 - game_logic._current_player_color]
 
-var current_pieces_safe: Array[Node3D] :
+var current_pieces_safe: Array[Node3D]:
 	get:
 		return pieces_safe[game_logic._current_player_color]
 
 
 var moves: Node
 
-func _ready():
-	pieces_on_board[GameLogic.PlayerColor.white].resize(14)
-	pieces_on_board[GameLogic.PlayerColor.black].resize(14)
+
+@onready var _in_game_node := $InGame as Control
+@onready var _game_over_node := $GameOver as Control
+@onready var _winner_label_node := %WinnerLabel as Label
+@onready var _roll_label_node := %RollLabel as Label
+
+
+func _ready() -> void:
+	var result: int
+	result = pieces_on_board[GameLogic.PlayerColor.white].resize(14)
+	if result != OK:
+		push_error("Failed to resize white pieces on board: ", error_string(result))
+	result = pieces_on_board[GameLogic.PlayerColor.black].resize(14)
+	if result != OK:
+		push_error("Failed to resize white pieces on board: ", error_string(result))
 	
 	for i in range(pieces):
-		var node = white_piece.instantiate()
+		var node := white_piece.instantiate()
 		pieces_left[GameLogic.PlayerColor.white].append(node)
 		add_child(node)
 		node = black_piece.instantiate()
@@ -106,18 +118,19 @@ func _ready():
 	reset()
 
 
-func _random_dir():
+func _random_dir() -> Vector3:
 	while true:
-		var vec = Vector3(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0), randf_range(-1.0, 1.0))
+		var vec := Vector3(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0), randf_range(-1.0, 1.0))
 		if vec.length_squared() < 1.0:
 			return vec
+	return Vector3.ZERO
 
 const PIECE_SIZE = 0.6
 
-func reset():
-	for color in [GameLogic.PlayerColor.white, GameLogic.PlayerColor.black]:
+func reset() -> void:
+	for color in GameLogic.PlayerColor.values() as Array[GameLogic.PlayerColor]:
 		for i in range(14):
-			var piece = pieces_on_board[color][i]
+			var piece: Node3D = pieces_on_board[color][i]
 			if piece != null:
 				pieces_left[color].append(piece)
 				pieces_on_board[color][i] = null
@@ -125,23 +138,23 @@ func reset():
 		pieces_safe[color].clear()
 	
 		for i in range(pieces):
-			var x = i % 5
-			var y = i / 5
-			var node = pieces_left[color][i]
+			var x := i % 5
+			var y := i / 5
+			var node: Node3D = pieces_left[color][i]
 			node.position = (left_position + Vector3(x - 2, 0, y - 0.5) * PIECE_SIZE) * Vector3(1, 1, color * -2.0 + 1.0)
 			#node.linear_velocity = _random_dir() * 2.0
-			node = black_piece.instantiate()
+			node = black_piece.instantiate() as Node3D
 	
-	$InGame.visible = true
-	$GameOver.visible = false
-	$GameOver.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_in_game_node.visible = true
+	_game_over_node.visible = false
+	_game_over_node.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	randomize()
 	game_logic.start()
 	roll_die()
 	show_moves()
 
 
-var current_color_name: String :
+var current_color_name: String:
 	get:
 		match game_logic._current_player_color:
 			GameLogic.PlayerColor.white:
@@ -152,16 +165,16 @@ var current_color_name: String :
 				return "unkown"
 
 
-func roll_die():
+func roll_die() -> void:
 	# todo: make this interactive
-	var die = randi_range(0, 1) + randi_range(0, 1) + randi_range(0, 1)
+	var die := randi_range(0, 1) + randi_range(0, 1) + randi_range(0, 1)
 	if die == 0:
 		die = 4
 	game_logic.roll_die(die)
-	%RollLabel.text = "%s rolled %s" % [current_color_name, die]
+	_roll_label_node.text = "%s rolled %s" % [current_color_name, die]
 
 
-func show_moves():
+func show_moves() -> void:
 	if moves != null:
 		remove_child(moves)
 	
@@ -169,23 +182,28 @@ func show_moves():
 	add_child(moves)
 	
 	for move in game_logic.moves:
-		var node = preload("res://entity/board_move.tscn").instantiate()
+		var node := preload("res://entity/board_move.tscn").instantiate() as BoardMove
 		node.positions = current_positions
 		if move is GameLogic.MoveOntoBoard:
+			var move_onto := move as GameLogic.MoveOntoBoard
 			node.start_position = 0
-			node.end_position = move.to_space + 1
+			node.end_position = move_onto.to_space + 1
 		elif move is GameLogic.MoveOnBoard:
-			node.start_position = move.piece + 1
-			node.end_position = move.to_space + 1
-			node.does_kill = move.does_kill
+			var move_on := move as GameLogic.MoveOnBoard
+			node.start_position = move_on.piece + 1
+			node.end_position = move_on.to_space + 1
+			node.does_kill = move_on.does_kill
 		elif move is GameLogic.MoveFromBoard:
-			node.start_position = move.piece + 1
+			var move_from := move as GameLogic.MoveFromBoard
+			node.start_position = move_from.piece + 1
 			node.end_position = len(current_positions) - 1
 		node.board_shape = board_shape
 		node.board_offset = board_offset
 		node.left_shape = left_shape
 		node.left_position = left_position * Vector3(1, 1, game_logic.current_player.color * -2.0 + 1.0)
-		node.selected.connect(_on_move_selected.bind(move))
+		var result := node.selected.connect(_on_move_selected.bind(move))
+		if result != OK:
+			push_error(error_string(result))
 		moves.add_child(node)
 	
 	if game_logic.moves.is_empty():
@@ -194,30 +212,48 @@ func show_moves():
 		show_moves()
 
 
-func _on_move_selected(move: GameLogic.Move):
+func _on_move_selected(move: GameLogic.Move) -> void:
 	print("move selected ", move)
 	if move is GameLogic.MoveOntoBoard:
-		var piece = current_pieces_left.pop_back()
-		piece.linear_velocity = calculate_launch_velocity(piece.position, current_positions[move.to_space + 1], 2.0)
-		#piece.position = current_positions[move.to_space + 1]
-		current_pieces_on_board[move.to_space] = piece
+		var move_onto := move as GameLogic.MoveOntoBoard
+		var target_position := current_positions[move_onto.to_space + 1]
+		var piece: Node3D = current_pieces_left.pop_back()
+		if piece is RigidBody3D:
+			var rigid_body: RigidBody3D = piece
+			rigid_body.linear_velocity = calculate_launch_velocity(rigid_body.position, target_position, 2.0)
+		else:
+			piece.position = target_position
+		current_pieces_on_board[move_onto.to_space] = piece
 	elif move is GameLogic.MoveOnBoard:
-		var piece = current_pieces_on_board[move.piece]
-		current_pieces_on_board[move.piece] = null
-		if move.does_kill:
-			var opponent_piece = opponent_pieces_on_board[move.to_space]
-			opponent_pieces_on_board[move.to_space] = null
-			opponent_piece.linear_velocity = calculate_launch_velocity(opponent_piece.position, (left_position + Vector3(0, 2, 0)) * Vector3(1, 1, game_logic.current_player.color * 2 - 1))
-			#opponent_piece.position = (left_position + Vector3(0, 2, 0)) * Vector3(1, 1, game_logic.current_player.color * 2 - 1)
+		var move_on := move as GameLogic.MoveOnBoard
+		var target_position := current_positions[move_on.to_space + 1]
+		var piece := current_pieces_on_board[move_on.piece] as RigidBody3D
+		current_pieces_on_board[move_on.piece] = null
+		if move_on.does_kill:
+			var opponent_piece := opponent_pieces_on_board[move_on.to_space]
+			opponent_pieces_on_board[move_on.to_space] = null
+			if opponent_piece is RigidBody3D:
+				var rigid_body := opponent_piece as RigidBody3D
+				rigid_body.linear_velocity = calculate_launch_velocity(rigid_body.position, (left_position + Vector3(0, 2, 0)) * Vector3(1, 1, game_logic.current_player.color * 2 - 1))
+			else:
+				opponent_piece.position = (left_position + Vector3(0, 2, 0)) * Vector3(1, 1, game_logic.current_player.color * 2 - 1)
 			opponent_pieces_left.append(opponent_piece)
-		piece.linear_velocity = calculate_launch_velocity(piece.position, current_positions[move.to_space + 1])
-		#piece.position = current_positions[move.to_space + 1]
-		current_pieces_on_board[move.to_space] = piece
+		if piece is RigidBody3D:
+			var rigid_body := piece as RigidBody3D
+			rigid_body.linear_velocity = calculate_launch_velocity(piece.position, target_position)
+		else:
+			piece.position = current_positions[move_on.to_space + 1]
+		current_pieces_on_board[move_on.to_space] = piece
 	elif move is GameLogic.MoveFromBoard:
-		var piece = current_pieces_on_board[move.piece]
-		current_pieces_on_board[move.piece] = null
-		piece.linear_velocity = calculate_launch_velocity(piece.position, left_position * Vector3(-1, 1, game_logic.current_player.color * -2.0 + 1.0) + Vector3(0, 2, 0))
-		#piece.position = left_position * Vector3(-1, 1, game_logic.current_player.color * -2.0 + 1.0) + Vector3(0, 2, 0)
+		var move_from := move as GameLogic.MoveFromBoard
+		var target_position := left_position * Vector3(-1, 1, game_logic.current_player.color * -2.0 + 1.0) + Vector3(0, 2, 0)
+		var piece := current_pieces_on_board[move_from.piece] as RigidBody3D
+		current_pieces_on_board[move_from.piece] = null
+		if piece is RigidBody3D:
+			var rigid_body := piece as RigidBody3D
+			rigid_body.linear_velocity = calculate_launch_velocity(rigid_body.position, target_position)
+		else:
+			piece.position = left_position * Vector3(-1, 1, game_logic.current_player.color * -2.0 + 1.0) + Vector3(0, 2, 0)
 		current_pieces_safe.append(piece)
 	
 	game_logic.apply_move(move)
@@ -230,43 +266,43 @@ func calculate_launch_velocity(start_position: Vector3, target_position: Vector3
 	var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 	
 	# Calculate the horizontal distance
-	var horizontal_distance = Vector2(target_position.x - start_position.x, target_position.z - start_position.z).length()
+	var horizontal_distance := Vector2(target_position.x - start_position.x, target_position.z - start_position.z).length()
 
 	# Calculate the vertical displacement
-	var vertical_displacement = target_position.y - start_position.y
+	# var 3 := target_position.y - start_position.y
 
 	# Calculate time of flight using the quadratic formula
 	# We want to solve: y = v_y * t - 0.5 * g * t^2
 	# Where y is vertical_displacement, v_y is initial vertical velocity, g is gravity, t is time
 
 	# For a nice arc, we'll aim to reach a peak height above both the start and target positions
-	var max_height = max(start_position.y, target_position.y) + arc_height
-	var h1 = max_height - start_position.y
-	var h2 = max_height - target_position.y
+	var max_height := maxf(start_position.y, target_position.y) + arc_height
+	var h1 := max_height - start_position.y
+	var h2 := max_height - target_position.y
 
 	# Time to reach peak from start
-	var t1 = sqrt(2 * h1 / gravity)
+	var t1 := sqrt(2 * h1 / gravity)
 
 	# Time to reach target from peak
-	var t2 = sqrt(2 * h2 / gravity)
+	var t2 := sqrt(2 * h2 / gravity)
 
 	# Total flight time
-	var flight_time = t1 + t2
+	var flight_time := t1 + t2
 
 	# Calculate horizontal velocity
-	var horizontal_velocity = horizontal_distance / flight_time
+	var horizontal_velocity := horizontal_distance / flight_time
 
 	# Calculate the horizontal direction
-	var horizontal_direction = Vector2(
+	var horizontal_direction := Vector2(
 		target_position.x - start_position.x,
 		target_position.z - start_position.z
 	).normalized()
 
 	# Calculate initial vertical velocity
-	var vertical_velocity = gravity * t1
+	var vertical_velocity := gravity * t1
 
 	# Construct the final velocity vector
-	var velocity = Vector3(
+	var velocity := Vector3(
 		horizontal_direction.x * horizontal_velocity,
 		vertical_velocity,
 		horizontal_direction.y * horizontal_velocity
@@ -275,16 +311,16 @@ func calculate_launch_velocity(start_position: Vector3, target_position: Vector3
 	return velocity
 
 
-func _on_game_logic_game_ended(player):
-	$InGame.visible = false
-	$GameOver.visible = true
-	$GameOver.mouse_filter = Control.MOUSE_FILTER_STOP
+func _on_game_logic_game_ended(player: GameLogic.Player) -> void:
+	_in_game_node.visible = false
+	_game_over_node.visible = true
+	_game_over_node.mouse_filter = Control.MOUSE_FILTER_STOP
 	match player.color:
 		GameLogic.PlayerColor.white:
-			%WinnerLabel.text = "White won"
+			_winner_label_node.text = "White won"
 		GameLogic.PlayerColor.black:
-			%WinnerLabel.text = "Black won"
+			_winner_label_node.text = "Black won"
 
 
-func _on_button_pressed():
+func _on_button_pressed() -> void:
 	reset()

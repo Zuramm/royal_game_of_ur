@@ -14,11 +14,11 @@ class Player:
 	var pieces_board: Array[int] = []
 	var pieces_safe: int = 0
 	
-	func _init(color_: PlayerColor, pieces: int):
+	func _init(color_: PlayerColor, pieces: int) -> void:
 		color = color_
 		pieces_left = pieces
 	
-	func debug():
+	func debug() -> void:
 		match color:
 			PlayerColor.white:
 				print("Team white")
@@ -26,7 +26,9 @@ class Player:
 				print("Team black")
 		
 		var board: Array[int] = []
-		board.resize(14)
+		var result := board.resize(14)
+		if result != OK:
+			push_error("Failed to resize board: ", error_string(result))
 		for pos in pieces_board:
 			board[pos] = 1
 		print("Board: %s" % "".join(board))
@@ -35,17 +37,17 @@ class Player:
 
 
 class Move:
-	func apply(_current_player: Player, _opponent_player: Player):
+	func apply(_current_player: Player, _opponent_player: Player) -> void:
 		pass
 
 
 class MoveOntoBoard extends Move:
 	var to_space: int
 	
-	func _init(to_space_: int):
+	func _init(to_space_: int) -> void:
 		to_space = to_space_
 	
-	func apply(current_player: Player, _opponent_player: Player):
+	func apply(current_player: Player, _opponent_player: Player) -> void:
 		current_player.pieces_left -= 1
 		current_player.pieces_board.append(to_space)
 
@@ -55,13 +57,13 @@ class MoveOnBoard extends Move:
 	var to_space: int
 	var does_kill: bool
 	
-	func _init(piece_: int, to_space_: int, does_kill_: bool):
+	func _init(piece_: int, to_space_: int, does_kill_: bool) -> void:
 		piece = piece_
 		to_space = to_space_
 		does_kill = does_kill_
 	
-	func apply(current_player: Player, opponent_player: Player):
-		var i = current_player.pieces_board.find(piece)
+	func apply(current_player: Player, opponent_player: Player) -> void:
+		var i := current_player.pieces_board.find(piece)
 		current_player.pieces_board[i] = to_space
 		if does_kill:
 			i = opponent_player.pieces_board.find(to_space)
@@ -72,17 +74,17 @@ class MoveOnBoard extends Move:
 class MoveFromBoard extends Move:
 	var piece: int
 	
-	func _init(piece_: int):
+	func _init(piece_: int) -> void:
 		piece = piece_
 	
-	func apply(current_player: Player, _opponent_player: Player):
-		var i = current_player.pieces_board.find(piece)
+	func apply(current_player: Player, _opponent_player: Player) -> void:
+		var i := current_player.pieces_board.find(piece)
 		current_player.pieces_board.remove_at(i)
 		current_player.pieces_safe += 1
 
 
-signal piece_moved(Move)
-signal game_ended(Player)
+signal piece_moved(move: Move)
+signal game_ended(player: Player)
 
 @export var route_length: int = 14
 @export var common_route_start: int = 4
@@ -96,7 +98,7 @@ var _black_player: Player
 
 var _current_player_color: PlayerColor
 
-var current_player: Player :
+var current_player: Player:
 	get:
 		match _current_player_color:
 			PlayerColor.white:
@@ -106,7 +108,7 @@ var current_player: Player :
 			_:
 				return null
 
-var opponent_player: Player :
+var opponent_player: Player:
 	get:
 		match _current_player_color:
 			PlayerColor.white:
@@ -117,7 +119,7 @@ var opponent_player: Player :
 				return null
 
 
-func start():
+func start() -> void:
 	moves = []
 	
 	_white_player = Player.new(PlayerColor.white, pieces)
@@ -126,21 +128,21 @@ func start():
 	_current_player_color = PlayerColor.white
 
 
-func roll_die(die: int):
+func roll_die(die: int) -> void:
 	moves = []
 	
 	if current_player.pieces_left > 0 and not current_player.pieces_board.has(die - 1):
 		moves.append(MoveOntoBoard.new(die - 1))
 	
 	for piece in current_player.pieces_board:
-		var new_space = piece + die
+		var new_space := piece + die
 		print("move from %s to %s" % [piece, new_space])
 		if new_space > route_length:
 			pass
 		elif new_space == route_length:
 			moves.append(MoveFromBoard.new(piece))
 		elif not current_player.pieces_board.has(new_space):
-			var does_kill = common_route_start <= new_space \
+			var does_kill := common_route_start <= new_space \
 			and new_space < common_route_end \
 			and opponent_player.pieces_board.has(new_space)
 			
@@ -149,11 +151,11 @@ func roll_die(die: int):
 	current_player.debug()
 
 
-func apply_move(move: Move):
+func apply_move(move: Move) -> void:
 	if move != null:
 		move.apply(current_player, opponent_player)
 		piece_moved.emit(move)
 		if current_player.pieces_left == 0 and current_player.pieces_board.is_empty():
 			game_ended.emit(current_player)
 	
-	_current_player_color = 1 - _current_player_color
+	_current_player_color = (1 - _current_player_color as int) as PlayerColor
