@@ -1,9 +1,10 @@
-[gd_scene load_steps=18 format=3 uid="uid://bf0sjvijvf8oa"]
+[gd_scene load_steps=19 format=3 uid="uid://bf0sjvijvf8oa"]
 
 [ext_resource type="Script" uid="uid://b0vmnetgattrt" path="res://scene/game.gd" id="1_qc12o"]
 [ext_resource type="PackedScene" uid="uid://cyakx4s37d20g" path="res://entity/piece_white.tscn" id="2_ktw4a"]
 [ext_resource type="PackedScene" uid="uid://bk53htttkqvy" path="res://entity/piece_black.tscn" id="3_ciayw"]
 [ext_resource type="Script" uid="uid://db1yviutx7fsu" path="res://game_logic.gd" id="5_5307g"]
+[ext_resource type="ArrayMesh" uid="uid://cefkw7hpmph3v" path="res://model/PieceProc/Board_model.tres" id="6_qpk70"]
 [ext_resource type="LightmapGIData" uid="uid://c2aos268hr2dy" path="res://scene/game.lmbake" id="7_gwse8"]
 [ext_resource type="Texture2D" uid="uid://ctb6373c8d427" path="res://texture/pretoria_gardens_2k.exr" id="9_dvqe3"]
 
@@ -115,6 +116,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.25, 2.08165e-12)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Board2"]
 shape = SubResource("BoxShape3D_cx2al")
+
+[node name="BoardModel" type="MeshInstance3D" parent="Board2"]
+transform = Transform3D(0.837, 0, 0, 0, 0.837, 0, 0, 0, 0.837, 0.5, -0.25565, 0)
+mesh = ExtResource("6_qpk70")
+skeleton = NodePath("../..")
 
 [node name="WorldBoundry" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, -0.5, 2.08165e-12)
