@@ -190,12 +190,12 @@ func show_moves() -> void:
 			node.end_position = move_onto.to_space + 1
 		elif move is GameLogic.MoveOnBoard:
 			var move_on := move as GameLogic.MoveOnBoard
-			node.start_position = move_on.piece + 1
-			node.end_position = move_on.to_space + 1
+			node.start_position = move_on.piece_progress + 1
+			node.end_position = move_on.new_progress + 1
 			node.does_kill = move_on.does_kill
 		elif move is GameLogic.MoveFromBoard:
 			var move_from := move as GameLogic.MoveFromBoard
-			node.start_position = move_from.piece + 1
+			node.start_position = move_from.piece_progress + 1
 			node.end_position = len(current_positions) - 1
 		node.board_shape = board_shape
 		node.board_offset = board_offset
@@ -226,12 +226,12 @@ func _on_move_selected(move: GameLogic.Move) -> void:
 		current_pieces_on_board[move_onto.to_space] = piece
 	elif move is GameLogic.MoveOnBoard:
 		var move_on := move as GameLogic.MoveOnBoard
-		var target_position := current_positions[move_on.to_space + 1]
-		var piece := current_pieces_on_board[move_on.piece] as RigidBody3D
-		current_pieces_on_board[move_on.piece] = null
+		var target_position := current_positions[move_on.new_progress + 1]
+		var piece := current_pieces_on_board[move_on.piece_progress] as RigidBody3D
+		current_pieces_on_board[move_on.piece_progress] = null
 		if move_on.does_kill:
-			var opponent_piece := opponent_pieces_on_board[move_on.to_space]
-			opponent_pieces_on_board[move_on.to_space] = null
+			var opponent_piece := opponent_pieces_on_board[move_on.opponent_piece_progress_to_kill]
+			opponent_pieces_on_board[move_on.opponent_piece_progress_to_kill] = null
 			if opponent_piece is RigidBody3D:
 				var rigid_body := opponent_piece as RigidBody3D
 				rigid_body.linear_velocity = calculate_launch_velocity(rigid_body.position, (left_position + Vector3(0, 2, 0)) * Vector3(1, 1, game_logic.current_player.color * 2 - 1))
@@ -242,13 +242,13 @@ func _on_move_selected(move: GameLogic.Move) -> void:
 			var rigid_body := piece as RigidBody3D
 			rigid_body.linear_velocity = calculate_launch_velocity(piece.position, target_position)
 		else:
-			piece.position = current_positions[move_on.to_space + 1]
-		current_pieces_on_board[move_on.to_space] = piece
+			piece.position = target_position
+		current_pieces_on_board[move_on.new_progress] = piece
 	elif move is GameLogic.MoveFromBoard:
 		var move_from := move as GameLogic.MoveFromBoard
 		var target_position := left_position * Vector3(-1, 1, game_logic.current_player.color * -2.0 + 1.0) + Vector3(0, 2, 0)
-		var piece := current_pieces_on_board[move_from.piece] as RigidBody3D
-		current_pieces_on_board[move_from.piece] = null
+		var piece := current_pieces_on_board[move_from.piece_progress] as RigidBody3D
+		current_pieces_on_board[move_from.piece_progress] = null
 		if piece is RigidBody3D:
 			var rigid_body := piece as RigidBody3D
 			rigid_body.linear_velocity = calculate_launch_velocity(rigid_body.position, target_position)
