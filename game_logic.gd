@@ -39,6 +39,8 @@ class Player:
 
 
 class Move:
+	var grants_extra_turn: bool = false
+
 	func apply(_current_player: Player, _opponent_player: Player) -> void:
 		pass
 
@@ -47,14 +49,15 @@ class MoveOntoBoard extends Move:
 	var _target_progress: int
 	var target_position: int
 	var path_positions: Array[int]
-	
-	func _init(player: Player, target_progress: int) -> void:
+
+	func _init(player: Player, target_progress: int, grants_extra_turn_: bool = false) -> void:
 		_target_progress = target_progress
 		target_position = player.path[target_progress]
 		path_positions = []
 		for i in range(_target_progress + 1):
 			path_positions.append(player.path[i])
-	
+		grants_extra_turn = grants_extra_turn_
+
 	func apply(current_player: Player, _opponent_player: Player) -> void:
 		current_player.pieces_left -= 1
 		current_player.pieces_progress.append(_target_progress)
@@ -69,7 +72,7 @@ class MoveOnBoard extends Move:
 	var does_kill: bool
 	var path_positions: Array[int]
 
-	func _init(player: Player, piece_progress: int, target_progress: int, opponent_progress: int = -1) -> void:
+	func _init(player: Player, piece_progress: int, target_progress: int, opponent_progress: int = -1, grants_extra_turn_: bool = false) -> void:
 		_piece_progress = piece_progress
 		_target_progress = target_progress
 		piece_position = player.path[piece_progress]
@@ -79,6 +82,7 @@ class MoveOnBoard extends Move:
 		path_positions = []
 		for i in range(_piece_progress, _target_progress + 1):
 			path_positions.append(player.path[i])
+		grants_extra_turn = grants_extra_turn_
 
 	func apply(current_player: Player, opponent_player: Player) -> void:
 		var i := current_player.pieces_progress.find(_piece_progress)
@@ -165,7 +169,8 @@ func roll_die(die: int) -> void:
 	moves = []
 
 	if current_player.pieces_left > 0 and not current_player.pieces_progress.has(die - 1):
-		moves.append(MoveOntoBoard.new(current_player, die - 1))
+		var grants_extra_turn := GameParameters.rosette_extra_turn and current_player.path[die - 1] in rosettes
+		moves.append(MoveOntoBoard.new(current_player, die - 1, grants_extra_turn))
 
 	for piece_progress in current_player.pieces_progress:
 		var target_progress := piece_progress + die
@@ -177,21 +182,25 @@ func roll_die(die: int) -> void:
 		elif target_progress > current_player.path.size():
 			pass
 		elif current_player.get_piece_at(target_position) == -1:
+			var grants_extra_turn := GameParameters.rosette_extra_turn and target_position in rosettes
 			var is_safe := GameParameters.rosette_safe and target_position in rosettes
 			var opponent_index := opponent_player.get_piece_at(target_position)
 			var opponent_progress := opponent_player.pieces_progress[opponent_index] if opponent_index != -1 else -1
 
 			if not is_safe or opponent_progress == -1:
-				moves.append(MoveOnBoard.new(current_player, piece_progress, target_progress, opponent_progress))
+				moves.append(MoveOnBoard.new(current_player, piece_progress, target_progress, opponent_progress, grants_extra_turn))
 
 	current_player.debug()
 
 
 func apply_move(move: Move) -> void:
+	var extra_turn := false
 	if move != null:
+		extra_turn = move.grants_extra_turn
 		move.apply(current_player, opponent_player)
 		piece_moved.emit(move)
 		if current_player.pieces_left == 0 and current_player.pieces_progress.is_empty():
 			game_ended.emit(current_player)
 	
-	_current_player_color = (1 - _current_player_color as int) as PlayerColor
+	if not extra_turn:
+		_current_player_color = (1 - _current_player_color as int) as PlayerColor
