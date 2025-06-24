@@ -185,10 +185,10 @@ func roll_die(die: int) -> void:
 		elif target_progress > current_player.path.size():
 			pass
 		elif current_player.get_piece_at(target_position) == -1:
-			var grants_extra_turn := GameParameters.rosette_extra_turn and target_position in rosettes
 			var is_safe := GameParameters.rosette_safe and target_position in rosettes
 			var opponent_index := opponent_player.get_piece_at(target_position)
 			var opponent_progress := opponent_player.pieces_progress[opponent_index] if opponent_index != -1 else -1
+			var grants_extra_turn := GameParameters.rosette_extra_turn and target_position in rosettes or GameParameters.capture_extra_turn and opponent_progress != -1
 
 			if not is_safe or opponent_progress == -1:
 				moves.append(MoveOnBoard.new(current_player, piece_progress, target_progress, opponent_progress, grants_extra_turn))
