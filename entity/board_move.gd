@@ -50,7 +50,6 @@ func _input_event(_camera: Camera3D, event: InputEvent, _position_: Vector3, _no
 		did_click = mouse_button.button_index == MOUSE_BUTTON_LEFT and mouse_button.pressed
 	
 	if did_click:
-		print(event)
 		selected.emit()
 
 

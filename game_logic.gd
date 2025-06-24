@@ -166,6 +166,8 @@ func start() -> void:
 
 
 func roll_die(die: int) -> void:
+	print("rolling die %s" % die)
+
 	moves = []
 
 	if die == 0:
@@ -178,7 +180,6 @@ func roll_die(die: int) -> void:
 	for piece_progress in current_player.pieces_progress:
 		var target_progress := piece_progress + die
 		var target_position := current_player.path[clampi(target_progress, 0, current_player.path.size() - 1)]
-		print("move from progress %s to %s" % [piece_progress, target_progress])
 
 		if target_progress == current_player.path.size():
 			moves.append(MoveFromBoard.new(current_player, piece_progress))

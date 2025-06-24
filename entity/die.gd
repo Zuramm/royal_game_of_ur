@@ -43,7 +43,6 @@ func _physics_process(_delta: float) -> void:
 	if rolling and linear_velocity.length_squared() < .01 and angular_velocity.length_squared() < .01:
 		rolling = false
 		rolled.emit(face)
-		print(face, angles)
 
 
 func _input_event(_camera: Camera3D, event: InputEvent, _position_: Vector3, _normal: Vector3, _shape_idx: int) -> void:
