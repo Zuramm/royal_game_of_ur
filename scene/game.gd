@@ -178,13 +178,12 @@ func reset() -> void:
 				pieces_on_board[color][i] = null
 		pieces_left[color].append_array(pieces_safe[color])
 		pieces_safe[color].clear()
-	
+		
 		for i in range(game_logic.pieces):
 			var y: float = i % 2
 			var x: float = i / 2 + y / 2
 			var node: Node3D = pieces_left[color][i]
 			node.position = (left_position + Vector3(x - 2, 0, y - 0.5) * PIECE_SIZE) * Vector3(1, 1, color * -2.0 + 1.0)
-			#node.linear_velocity = _random_dir() * 2.0
 			node = black_piece.instantiate() as Node3D
 	
 	_in_game_node.visible = true
