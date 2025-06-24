@@ -93,7 +93,6 @@ var current_end_position: Vector3:
 @export var game_logic: GameLogic
 @export var white_piece: PackedScene
 @export var black_piece: PackedScene
-@export var pieces: int = 7
 
 @export var board_shape: BoxShape3D
 @export var board_offset: Vector3
@@ -150,7 +149,7 @@ func _ready() -> void:
 	if result != OK:
 		push_error("Failed to resize white pieces on board: ", error_string(result))
 	
-	for i in range(pieces):
+	for i in range(game_logic.pieces):
 		var node := white_piece.instantiate()
 		pieces_left[GameLogic.PlayerColor.white].append(node)
 		add_child(node)
@@ -172,7 +171,7 @@ const PIECE_SIZE = 0.6
 
 func reset() -> void:
 	for color in GameLogic.PlayerColor.values() as Array[GameLogic.PlayerColor]:
-		for i in range(14):
+		for i in range(BOARD_POSITIONS.size()):
 			var piece: Node3D = pieces_on_board[color][i]
 			if piece != null:
 				pieces_left[color].append(piece)
@@ -180,9 +179,9 @@ func reset() -> void:
 		pieces_left[color].append_array(pieces_safe[color])
 		pieces_safe[color].clear()
 	
-		for i in range(pieces):
-			var x := i % 5
-			var y := i / 5
+		for i in range(game_logic.pieces):
+			var y: float = i % 2
+			var x: float = i / 2 + y / 2
 			var node: Node3D = pieces_left[color][i]
 			node.position = (left_position + Vector3(x - 2, 0, y - 0.5) * PIECE_SIZE) * Vector3(1, 1, color * -2.0 + 1.0)
 			#node.linear_velocity = _random_dir() * 2.0
