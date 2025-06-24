@@ -210,9 +210,18 @@ var current_color_name: String:
 
 func roll_die() -> void:
 	# todo: make this interactive
-	var die := randi_range(0, 1) + randi_range(0, 1) + randi_range(0, 1)
-	if die == 0:
-		die = 4
+	var die: int
+	match GameParameters.dice:
+		GameTypes.DICE_D4x1:
+			die = randi_range(1, 4)
+		GameTypes.DICE_D3x2:
+			die = randi_range(0, 2) + randi_range(0, 2)
+		GameTypes.DICE_D2x3:
+			die = randi_range(0, 1) + randi_range(0, 1) + randi_range(0, 1)
+			if die == 0:
+				die = 3
+		GameTypes.DICE_D2x4:
+			die = randi_range(0, 1) + randi_range(0, 1) + randi_range(0, 1) + randi_range(0, 1)
 	game_logic.roll_die(die)
 	_roll_label_node.text = "%s rolled %s" % [current_color_name, die]
 
