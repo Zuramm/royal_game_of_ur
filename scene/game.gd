@@ -1,30 +1,17 @@
 extends Node3D
 
-var white_positions: Array[Vector3] = [
-	Vector3(0, 0, 1),
-	Vector3(-1, 0, 1),
-	Vector3(-2, 0, 1),
-	Vector3(-3, 0, 1),
-	Vector3(-4, 0, 1),
-	Vector3(-4, 0, 0),
-	Vector3(-3, 0, 0),
-	Vector3(-2, 0, 0),
-	Vector3(-1, 0, 0),
-	Vector3(0, 0, 0),
-	Vector3(1, 0, 0),
-	Vector3(2, 0, 0),
-	Vector3(3, 0, 0),
-	Vector3(3, 0, 1),
-	Vector3(2, 0, 1),
-	Vector3(1, 0, 1),
-]
 
-var black_positions: Array[Vector3] = [
-	Vector3(0, 0, -1),
-	Vector3(-1, 0, -1),
-	Vector3(-2, 0, -1),
-	Vector3(-3, 0, -1),
-	Vector3(-4, 0, -1),
+#  0  1  2  3        4  5
+#  6  7  8  9 10 11 12 13
+# 14 15 16 17       18 19
+
+const BOARD_POSITIONS: Array[Vector3] = [
+	Vector3(-4, 0, 1),
+	Vector3(-3, 0, 1),
+	Vector3(-2, 0, 1),
+	Vector3(-1, 0, 1),
+	Vector3(2, 0, 1),
+	Vector3(3, 0, 1),
 	Vector3(-4, 0, 0),
 	Vector3(-3, 0, 0),
 	Vector3(-2, 0, 0),
@@ -33,19 +20,52 @@ var black_positions: Array[Vector3] = [
 	Vector3(1, 0, 0),
 	Vector3(2, 0, 0),
 	Vector3(3, 0, 0),
-	Vector3(3, 0, -1),
+	Vector3(-4, 0, -1),
+	Vector3(-3, 0, -1),
+	Vector3(-2, 0, -1),
+	Vector3(-1, 0, -1),
 	Vector3(2, 0, -1),
+	Vector3(3, 0, -1),
+	Vector3(0, 0, 1),
+	Vector3(1, 0, 1),
+	Vector3(0, 0, -1),
 	Vector3(1, 0, -1),
 ]
 
-var positions: Array[Array] = [
-	white_positions,
-	black_positions,
-]
+func map_positions(positions1: Array[int]) -> Array[Vector3]:
+	var result: Array[Vector3] = []
+	for position1 in positions1:
+		result.append(BOARD_POSITIONS[position1])
+	return result
 
-var current_positions: Array[Vector3]:
+
+const WHITE_START_POSITION := BOARD_POSITIONS[20]
+const WHITE_END_POSITION := BOARD_POSITIONS[21]
+const BLACK_START_POSITION := BOARD_POSITIONS[22]
+const BLACK_END_POSITION := BOARD_POSITIONS[23]
+
+var current_start_position: Vector3:
 	get:
-		return positions[game_logic._current_player_color]
+		match game_logic._current_player_color:
+			GameLogic.PlayerColor.white:
+				return WHITE_START_POSITION
+			GameLogic.PlayerColor.black:
+				return BLACK_START_POSITION
+			var color:
+				push_error("Unknown current player color: ", color)
+				return Vector3.ZERO
+
+var current_end_position: Vector3:
+	get:
+		match game_logic._current_player_color:
+			GameLogic.PlayerColor.white:
+				return WHITE_END_POSITION
+			GameLogic.PlayerColor.black:
+				return BLACK_END_POSITION
+			var color:
+				push_error("Unknown current player color: ", color)
+				return Vector3.ZERO
+
 
 @export var game_logic: GameLogic
 @export var white_piece: PackedScene
@@ -100,10 +120,10 @@ var moves: Node
 
 func _ready() -> void:
 	var result: int
-	result = pieces_on_board[GameLogic.PlayerColor.white].resize(14)
+	result = pieces_on_board[GameLogic.PlayerColor.white].resize(BOARD_POSITIONS.size())
 	if result != OK:
 		push_error("Failed to resize white pieces on board: ", error_string(result))
-	result = pieces_on_board[GameLogic.PlayerColor.black].resize(14)
+	result = pieces_on_board[GameLogic.PlayerColor.black].resize(BOARD_POSITIONS.size())
 	if result != OK:
 		push_error("Failed to resize white pieces on board: ", error_string(result))
 	
@@ -180,27 +200,27 @@ func show_moves() -> void:
 	
 	moves = Node3D.new()
 	add_child(moves)
-	
+
 	for move in game_logic.moves:
 		var node := preload("res://entity/board_move.tscn").instantiate() as BoardMove
-		node.positions = current_positions
 		if move is GameLogic.MoveOntoBoard:
 			var move_onto := move as GameLogic.MoveOntoBoard
-			node.start_position = 0
-			node.end_position = move_onto.to_space + 1
+			node.positions = map_positions(move_onto.path_positions)
+			node.positions.push_front(current_start_position)
+			node.collision_shape = left_shape
+			node.collision_position = left_position * Vector3(1, 1, game_logic.current_player.color * -2.0 + 1.0)
 		elif move is GameLogic.MoveOnBoard:
 			var move_on := move as GameLogic.MoveOnBoard
-			node.start_position = move_on.piece_progress + 1
-			node.end_position = move_on.new_progress + 1
+			node.positions = map_positions(move_on.path_positions)
+			node.collision_shape = board_shape
+			node.collision_position = node.positions[0]
 			node.does_kill = move_on.does_kill
 		elif move is GameLogic.MoveFromBoard:
 			var move_from := move as GameLogic.MoveFromBoard
-			node.start_position = move_from.piece_progress + 1
-			node.end_position = len(current_positions) - 1
-		node.board_shape = board_shape
-		node.board_offset = board_offset
-		node.left_shape = left_shape
-		node.left_position = left_position * Vector3(1, 1, game_logic.current_player.color * -2.0 + 1.0)
+			node.positions = map_positions(move_from.path_positions)
+			node.positions.push_back(current_end_position)
+			node.collision_shape = board_shape
+			node.collision_position = node.positions[0]
 		var result := node.selected.connect(_on_move_selected.bind(move))
 		if result != OK:
 			push_error(error_string(result))
@@ -213,25 +233,26 @@ func show_moves() -> void:
 
 
 func _on_move_selected(move: GameLogic.Move) -> void:
-	print("move selected ", move)
 	if move is GameLogic.MoveOntoBoard:
 		var move_onto := move as GameLogic.MoveOntoBoard
-		var target_position := current_positions[move_onto.to_space + 1]
+		print("chose move onto board: -> ", move_onto.target_position)
+		var target_position := BOARD_POSITIONS[move_onto.target_position]
 		var piece: Node3D = current_pieces_left.pop_back()
 		if piece is RigidBody3D:
 			var rigid_body: RigidBody3D = piece
 			rigid_body.linear_velocity = calculate_launch_velocity(rigid_body.position, target_position, 2.0)
 		else:
 			piece.position = target_position
-		current_pieces_on_board[move_onto.to_space] = piece
+		current_pieces_on_board[move_onto.target_position] = piece
 	elif move is GameLogic.MoveOnBoard:
 		var move_on := move as GameLogic.MoveOnBoard
-		var target_position := current_positions[move_on.new_progress + 1]
-		var piece := current_pieces_on_board[move_on.piece_progress] as RigidBody3D
-		current_pieces_on_board[move_on.piece_progress] = null
+		print("chose move on board:", move_on.piece_position, " -> ", move_on.target_position)
+		var target_position := BOARD_POSITIONS[move_on.target_position]
+		var piece := current_pieces_on_board[move_on.piece_position] as RigidBody3D
+		current_pieces_on_board[move_on.piece_position] = null
 		if move_on.does_kill:
-			var opponent_piece := opponent_pieces_on_board[move_on.opponent_piece_progress_to_kill]
-			opponent_pieces_on_board[move_on.opponent_piece_progress_to_kill] = null
+			var opponent_piece := opponent_pieces_on_board[move_on.target_position]
+			opponent_pieces_on_board[move_on.target_position] = null
 			if opponent_piece is RigidBody3D:
 				var rigid_body := opponent_piece as RigidBody3D
 				rigid_body.linear_velocity = calculate_launch_velocity(rigid_body.position, (left_position + Vector3(0, 2, 0)) * Vector3(1, 1, game_logic.current_player.color * 2 - 1))
@@ -243,12 +264,13 @@ func _on_move_selected(move: GameLogic.Move) -> void:
 			rigid_body.linear_velocity = calculate_launch_velocity(piece.position, target_position)
 		else:
 			piece.position = target_position
-		current_pieces_on_board[move_on.new_progress] = piece
+		current_pieces_on_board[move_on.target_position] = piece
 	elif move is GameLogic.MoveFromBoard:
 		var move_from := move as GameLogic.MoveFromBoard
+		print("chose move from board:", move_from.piece_position, " -> ")
 		var target_position := left_position * Vector3(-1, 1, game_logic.current_player.color * -2.0 + 1.0) + Vector3(0, 2, 0)
-		var piece := current_pieces_on_board[move_from.piece_progress] as RigidBody3D
-		current_pieces_on_board[move_from.piece_progress] = null
+		var piece := current_pieces_on_board[move_from.piece_position] as RigidBody3D
+		current_pieces_on_board[move_from.piece_position] = null
 		if piece is RigidBody3D:
 			var rigid_body := piece as RigidBody3D
 			rigid_body.linear_velocity = calculate_launch_velocity(rigid_body.position, target_position)

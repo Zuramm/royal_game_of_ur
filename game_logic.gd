@@ -18,6 +18,13 @@ class Player:
 	func _init(color_: PlayerColor, pieces: int) -> void:
 		color = color_
 		pieces_left = pieces
+
+	# Returns the index of pieces_progress of the piece at the given position, or -1 if no piece is at the position
+	func get_piece_at(position: int) -> int:
+		for i in range(pieces_progress.size()):
+			if path[pieces_progress[i]] == position:
+				return i
+		return -1
 	
 	func debug() -> void:
 		match color:
@@ -26,7 +33,7 @@ class Player:
 			PlayerColor.black:
 				print("Team black")
 		
-		print("Progress: %s" % pieces_progress)
+		print("Progress: %s" % ", ".join(pieces_progress))
 		print("Pieces left: %s" % pieces_left)
 		print("Pieces safe: %s" % pieces_safe)
 
@@ -37,45 +44,65 @@ class Move:
 
 
 class MoveOntoBoard extends Move:
-	var to_space: int
+	var _target_progress: int
+	var target_position: int
+	var path_positions: Array[int]
 	
-	func _init(to_space_: int) -> void:
-		to_space = to_space_
+	func _init(player: Player, target_progress: int) -> void:
+		_target_progress = target_progress
+		target_position = player.path[target_progress]
+		path_positions = []
+		for i in range(_target_progress + 1):
+			path_positions.append(player.path[i])
 	
 	func apply(current_player: Player, _opponent_player: Player) -> void:
 		current_player.pieces_left -= 1
-		current_player.pieces_progress.append(to_space)
+		current_player.pieces_progress.append(_target_progress)
 
 
 class MoveOnBoard extends Move:
-	var piece_progress: int
-	var new_progress: int
+	var _piece_progress: int
+	var _target_progress: int
+	var _opponent_progress: int
+	var piece_position: int
+	var target_position: int
 	var does_kill: bool
-	var opponent_piece_progress_to_kill: int
-	
-	func _init(piece_progress_: int, new_progress_: int, does_kill_: bool, opponent_piece_progress_to_kill_: int = -1) -> void:
-		piece_progress = piece_progress_
-		new_progress = new_progress_
-		does_kill = does_kill_
-		opponent_piece_progress_to_kill = opponent_piece_progress_to_kill_
-	
+	var path_positions: Array[int]
+
+	func _init(player: Player, piece_progress: int, target_progress: int, opponent_progress: int = -1) -> void:
+		_piece_progress = piece_progress
+		_target_progress = target_progress
+		piece_position = player.path[piece_progress]
+		target_position = player.path[target_progress]
+		_opponent_progress = opponent_progress
+		does_kill = _opponent_progress != -1
+		path_positions = []
+		for i in range(_piece_progress, _target_progress + 1):
+			path_positions.append(player.path[i])
+
 	func apply(current_player: Player, opponent_player: Player) -> void:
-		var i := current_player.pieces_progress.find(piece_progress)
-		current_player.pieces_progress[i] = new_progress
+		var i := current_player.pieces_progress.find(_piece_progress)
+		current_player.pieces_progress[i] = _target_progress
 		if does_kill:
-			var j := opponent_player.pieces_progress.find(opponent_piece_progress_to_kill)
+			var j := opponent_player.pieces_progress.find(_opponent_progress)
 			opponent_player.pieces_progress.remove_at(j)
 			opponent_player.pieces_left += 1
 
 
 class MoveFromBoard extends Move:
-	var piece_progress: int
-	
-	func _init(piece_: int) -> void:
-		piece_progress = piece_
-	
+	var _piece_progress: int
+	var piece_position: int
+	var path_positions: Array[int]
+
+	func _init(player: Player, piece_progress: int) -> void:
+		_piece_progress = piece_progress
+		piece_position = player.path[piece_progress]
+		path_positions = []
+		for i in range(_piece_progress, player.path.size()):
+			path_positions.append(player.path[i])
+
 	func apply(current_player: Player, _opponent_player: Player) -> void:
-		var i := current_player.pieces_progress.find(piece_progress)
+		var i := current_player.pieces_progress.find(_piece_progress)
 		current_player.pieces_progress.remove_at(i)
 		current_player.pieces_safe += 1
 
@@ -136,30 +163,21 @@ func roll_die(die: int) -> void:
 	moves = []
 
 	if current_player.pieces_left > 0 and not current_player.pieces_progress.has(die - 1):
-		moves.append(MoveOntoBoard.new(die - 1))
+		moves.append(MoveOntoBoard.new(current_player, die - 1))
 
 	for piece_progress in current_player.pieces_progress:
-		var new_progress := piece_progress + die
-		print("move from progress %s to %s" % [piece_progress, new_progress])
+		var target_progress := piece_progress + die
+		var target_position := current_player.path[clampi(target_progress, 0, current_player.path.size() - 1)]
+		print("move from progress %s to %s" % [piece_progress, target_progress])
 
-		if new_progress == current_player.path.size():
-			moves.append(MoveFromBoard.new(piece_progress))
-		elif new_progress > current_player.path.size():
+		if target_progress == current_player.path.size():
+			moves.append(MoveFromBoard.new(current_player, piece_progress))
+		elif target_progress > current_player.path.size():
 			pass
-		elif not current_player.pieces_progress.has(new_progress):
-			var does_kill := false
-			var opponent_piece_progress_to_kill := -1
-
-			var new_board_space := current_player.path[new_progress]
-
-			for opp_piece_prog in opponent_player.pieces_progress:
-				var opp_board_space := opponent_player.path[opp_piece_prog]
-				if opp_board_space == new_board_space:
-					does_kill = true
-					opponent_piece_progress_to_kill = opp_piece_prog
-					break
-
-			moves.append(MoveOnBoard.new(piece_progress, new_progress, does_kill, opponent_piece_progress_to_kill))
+		elif current_player.get_piece_at(target_position) == -1:
+			var opponent_index := opponent_player.get_piece_at(target_position)
+			var opponent_progress := opponent_player.pieces_progress[opponent_index] if opponent_index != -1 else -1
+			moves.append(MoveOnBoard.new(current_player, piece_progress, target_progress, opponent_progress))
 
 	current_player.debug()
 
