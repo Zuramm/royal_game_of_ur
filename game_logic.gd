@@ -119,7 +119,7 @@ var rosettes: Array[int] = [0, 4, 9, 14, 18]
 @onready var white_path: Array[int] = GameParameters.white_path
 @onready var black_path: Array[int] = GameParameters.black_path
 
-@export var pieces: int = 7
+@onready var pieces: int = GameParameters.pieces
 
 var moves: Array[Move]
 
