@@ -114,6 +114,8 @@ signal game_ended(player: Player)
 #  6  7  8  9 10 11 12 13
 # 14 15 16 17       18 19
 
+var rosettes: Array[int] = [0, 4, 9, 14, 18]
+
 @onready var white_path: Array[int] = GameParameters.white_path
 @onready var black_path: Array[int] = GameParameters.black_path
 
@@ -175,9 +177,12 @@ func roll_die(die: int) -> void:
 		elif target_progress > current_player.path.size():
 			pass
 		elif current_player.get_piece_at(target_position) == -1:
+			var is_safe := GameParameters.rosette_safe and target_position in rosettes
 			var opponent_index := opponent_player.get_piece_at(target_position)
 			var opponent_progress := opponent_player.pieces_progress[opponent_index] if opponent_index != -1 else -1
-			moves.append(MoveOnBoard.new(current_player, piece_progress, target_progress, opponent_progress))
+
+			if not is_safe or opponent_progress == -1:
+				moves.append(MoveOnBoard.new(current_player, piece_progress, target_progress, opponent_progress))
 
 	current_player.debug()
 
