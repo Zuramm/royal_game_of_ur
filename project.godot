@@ -13,7 +13,7 @@ config_version=5
 config/name="Royal Game of Ur"
 run/main_scene="uid://rys751pf3sbr"
 config/features=PackedStringArray("4.4", "GL Compatibility")
-config/icon="res://icon.svg"
+config/icon="uid://dqtp6uf1p1nm3"
 
 [autoload]
 
