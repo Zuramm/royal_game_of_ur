@@ -114,8 +114,8 @@ signal game_ended(player: Player)
 #  6  7  8  9 10 11 12 13
 # 14 15 16 17       18 19
 
-@export var white_path: Array[int] = [3, 2, 1, 0, 6, 7, 8, 9, 10, 11, 12, 13, 5, 4]
-@export var black_path: Array[int] = [17, 16, 15, 14, 6, 7, 8, 9, 10, 11, 12, 13, 19, 18]
+@onready var white_path: Array[int] = GameParameters.white_path
+@onready var black_path: Array[int] = GameParameters.black_path
 
 @export var pieces: int = 7
 

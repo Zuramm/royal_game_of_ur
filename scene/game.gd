@@ -26,10 +26,6 @@ const BOARD_POSITIONS: Array[Vector3] = [
 	Vector3(-1, 0, -1),
 	Vector3(2, 0, -1),
 	Vector3(3, 0, -1),
-	Vector3(0, 0, 1),
-	Vector3(1, 0, 1),
-	Vector3(0, 0, -1),
-	Vector3(1, 0, -1),
 ]
 
 func map_positions(positions1: Array[int]) -> Array[Vector3]:
@@ -39,18 +35,45 @@ func map_positions(positions1: Array[int]) -> Array[Vector3]:
 	return result
 
 
-const WHITE_START_POSITION := BOARD_POSITIONS[20]
-const WHITE_END_POSITION := BOARD_POSITIONS[21]
-const BLACK_START_POSITION := BOARD_POSITIONS[22]
-const BLACK_END_POSITION := BOARD_POSITIONS[23]
+var white_start_position: Vector3:
+	get:
+		return Vector3(0, 0, 1)
+var white_end_position: Vector3:
+	get:
+		match GameParameters.path:
+			GameParameters.Path.BELL, GameParameters.Path.MASTER:
+				return Vector3(1, 0, 1)
+			GameParameters.Path.MURRAY:
+				return Vector3(1, 0, -1)
+			GameParameters.Path.SKIRIUK:
+				return Vector3(-5, 0, 0)
+			_:
+				push_error("Unknown path: ", GameParameters.path)
+				return Vector3.ZERO
+
+var black_start_position: Vector3:
+	get:
+		return Vector3(0, 0, -1)
+var black_end_position: Vector3:
+	get:
+		match GameParameters.path:
+			GameParameters.Path.BELL, GameParameters.Path.MASTER:
+				return Vector3(1, 0, -1)
+			GameParameters.Path.MURRAY:
+				return Vector3(1, 0, 1)
+			GameParameters.Path.SKIRIUK:
+				return Vector3(-5, 0, 0)
+			_:
+				push_error("Unknown path: ", GameParameters.path)
+				return Vector3.ZERO
 
 var current_start_position: Vector3:
 	get:
 		match game_logic._current_player_color:
 			GameLogic.PlayerColor.white:
-				return WHITE_START_POSITION
+				return white_start_position
 			GameLogic.PlayerColor.black:
-				return BLACK_START_POSITION
+				return black_start_position
 			var color:
 				push_error("Unknown current player color: ", color)
 				return Vector3.ZERO
@@ -59,9 +82,9 @@ var current_end_position: Vector3:
 	get:
 		match game_logic._current_player_color:
 			GameLogic.PlayerColor.white:
-				return WHITE_END_POSITION
+				return white_end_position
 			GameLogic.PlayerColor.black:
-				return BLACK_END_POSITION
+				return black_end_position
 			var color:
 				push_error("Unknown current player color: ", color)
 				return Vector3.ZERO

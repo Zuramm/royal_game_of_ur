@@ -10,8 +10,8 @@ func _on_dice_option_button_item_selected(index: int) -> void:
 
 
 func _on_path_option_button_item_selected(index: int) -> void:
-	var dice := [GameTypes.PATH_BELL, GameTypes.PATH_MASTER, GameTypes.PATH_MURRAY, GameTypes.PATH_SKIRIUK] as Array[int]
-	GameParameters.path = dice[index]
+	var path := [GameTypes.Path.BELL, GameTypes.Path.MASTER, GameTypes.Path.MURRAY, GameTypes.Path.SKIRIUK] as Array[int]
+	GameParameters.path = path[index]
 
 
 func _on_pieces_slider_value_changed(value: float) -> void:
