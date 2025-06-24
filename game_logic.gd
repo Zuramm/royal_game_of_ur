@@ -168,6 +168,9 @@ func start() -> void:
 func roll_die(die: int) -> void:
 	moves = []
 
+	if die == 0:
+		return
+
 	if current_player.pieces_left > 0 and not current_player.pieces_progress.has(die - 1):
 		var grants_extra_turn := GameParameters.rosette_extra_turn and current_player.path[die - 1] in rosettes
 		moves.append(MoveOntoBoard.new(current_player, die - 1, grants_extra_turn))

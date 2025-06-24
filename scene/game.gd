@@ -219,7 +219,7 @@ func roll_die() -> void:
 		GameTypes.DICE_D2x3:
 			die = randi_range(0, 1) + randi_range(0, 1) + randi_range(0, 1)
 			if die == 0:
-				die = 3
+				die = 4
 		GameTypes.DICE_D2x4:
 			die = randi_range(0, 1) + randi_range(0, 1) + randi_range(0, 1) + randi_range(0, 1)
 	game_logic.roll_die(die)
