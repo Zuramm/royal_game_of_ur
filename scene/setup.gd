@@ -4,14 +4,25 @@ extends MarginContainer
 @onready var _setup_scene: PackedScene = preload("res://scene/game.tscn")
 
 
+const DICE: Array[int] = [GameTypes.DICE_D4x1, GameTypes.DICE_D3x2, GameTypes.DICE_D2x3, GameTypes.DICE_D2x4]
+const PATHS := [GameTypes.Path.BELL, GameTypes.Path.MASTER, GameTypes.Path.MURRAY, GameTypes.Path.SKIRIUK]
+
+
+func _ready() -> void:
+	%DiceOptionButton.selected = DICE.find(GameParameters.dice)
+	%PathOptionButton.selected = PATHS.find(GameParameters.path)
+	%PiecesSlider.value = GameParameters.pieces
+	%RosetteSafe.button_pressed = GameParameters.rosette_safe
+	%RosetteExtraTurn.button_pressed = GameParameters.rosette_extra_turn
+	%CaptureExtraTurn.button_pressed = GameParameters.capture_extra_turn
+
+
 func _on_dice_option_button_item_selected(index: int) -> void:
-	var dice := [GameTypes.DICE_D4x1, GameTypes.DICE_D3x2, GameTypes.DICE_D2x3, GameTypes.DICE_D2x4] as Array[int]
-	GameParameters.dice = dice[index]
+	GameParameters.dice = DICE[index]
 
 
 func _on_path_option_button_item_selected(index: int) -> void:
-	var path := [GameTypes.Path.BELL, GameTypes.Path.MASTER, GameTypes.Path.MURRAY, GameTypes.Path.SKIRIUK] as Array[int]
-	GameParameters.path = path[index]
+	GameParameters.path = PATHS[index]
 
 
 func _on_pieces_slider_value_changed(value: float) -> void:
