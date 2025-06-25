@@ -8,7 +8,7 @@ var dice := DICE_D2x4
 var path := Path.BELL
 var pieces := 5
 var rosette_safe := true
-var rosette_extra_turn := false
+var rosette_extra_turn := true
 var capture_extra_turn := false
 
 

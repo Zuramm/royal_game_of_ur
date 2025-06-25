@@ -68,13 +68,13 @@ script = ExtResource("5_5307g")
 transform = Transform3D(0.6, 0, 0, 0, 0.15, 0, 0, 0, 0.6, -2.5, -0.5, 3)
 
 [node name="WhiteEndTransform" type="Node3D" parent="."]
-transform = Transform3D(0.6, 0, 0, 0, 0.15, 0, 0, 0, 0.6, 1, -0.5, 1)
+transform = Transform3D(0.6, 0, 0, 0, 0.15, 0, 0, 0, 0.6, 4, -0.5, 1)
 
 [node name="BlackStartTransform" type="Node3D" parent="."]
-transform = Transform3D(0.6, 0, 0, 0, 0.15, 0, 0, 0, -0.6, -4.2, -0.5, -2.2)
+transform = Transform3D(0.6, 0, 0, 0, 0.15, 0, 0, 0, -0.6, -2.5, -0.5, -3)
 
 [node name="BlackEndTransform" type="Node3D" parent="."]
-transform = Transform3D(0.6, 0, 0, 0, 0.15, 0, 0, 0, -0.6, 1, -0.5, -1)
+transform = Transform3D(0.6, 0, 0, 0, 0.15, 0, 0, 0, -0.6, 4, -0.5, -1)
 
 [node name="BoardTransform" type="Node3D" parent="."]
 

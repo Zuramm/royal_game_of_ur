@@ -38,16 +38,11 @@ func _ready() -> void:
 	player.board_collision_shape = board_shape
 	white_player = player
 	add_child(white_player)
-	player = Player3DHuman.new()
-	player.piece_scene = black_piece
-	player.start_transform = black_start_transform.transform
-	player.board_transform = black_board_transform.transform
-	player.end_transform = black_end_transform.transform
-	player.start_collision_shape = left_shape
-	player.board_collision_shape = board_shape
-	player.path_start_position = GameParameters.black_start_position
-	player.path_end_position = GameParameters.black_end_position
-	black_player = player
+	black_player = Player3DAIFast.new()
+	black_player.piece_scene = black_piece
+	black_player.start_transform = black_start_transform.transform
+	black_player.board_transform = black_board_transform.transform
+	black_player.end_transform = black_end_transform.transform
 	add_child(black_player)
 
 	reset()

@@ -93,6 +93,10 @@ func turn(moves: Array[GameLogic.Move], opponent: Player3D) -> GameLogic.Move:
 		print("Board pieces: ", _board_pieces)
 		print("Moving piece from board: ", move_from.piece_position, " to ", _end_pieces.size() - 1)
 		await _move_piece(node, end_transform * _compute_piece_end_position(_end_pieces.size() - 1))
+	elif move == null:
+		await get_tree().create_timer(0.1).timeout
+	else:
+		push_error("Invalid move: ", move)
 	return move
 
 
