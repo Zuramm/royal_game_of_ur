@@ -33,6 +33,7 @@ func _pick_move(moves: Array[GameLogic.Move]) -> GameLogic.Move:
 			node.positions.push_front(path_start_position)
 			node.collision_shape = start_collision_shape
 			node.collision_position = start_transform * Vector3.ZERO
+			node.does_kill = move_onto.does_kill
 		elif move is GameLogic.MoveOnBoard:
 			var move_on := move as GameLogic.MoveOnBoard
 			node.positions = GameParameters.map_positions(move_on.path_positions)

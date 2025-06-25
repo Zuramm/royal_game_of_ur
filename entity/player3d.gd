@@ -71,6 +71,8 @@ func turn(moves: Array[GameLogic.Move], opponent: Player3D) -> GameLogic.Move:
 		var move_onto := move as GameLogic.MoveOntoBoard
 		var node: Node3D = _start_pieces.pop_back()
 		_board_pieces[move_onto.target_position] = node
+		if move_onto.does_kill:
+			opponent.kill_piece(move_onto.target_position)
 		print("Moving piece onto board: ", move_onto.target_position)
 		await _move_piece(node, GameParameters.board_positions[move_onto.target_position])
 	elif move is GameLogic.MoveOnBoard:

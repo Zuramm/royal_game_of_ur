@@ -53,18 +53,26 @@ class MoveOntoBoard extends Move:
 	var _target_progress: int
 	var target_position: int
 	var path_positions: Array[int]
+	var _opponent_progress: int
+	var does_kill: bool
 
-	func _init(player: Player, target_progress: int, grants_extra_turn_: bool = false) -> void:
+	func _init(player: Player, target_progress: int, opponent_progress: int = -1, grants_extra_turn_: bool = false) -> void:
 		_target_progress = target_progress
 		target_position = player.path[target_progress]
 		path_positions = []
 		for i in range(_target_progress + 1):
 			path_positions.append(player.path[i])
+		_opponent_progress = opponent_progress
+		does_kill = _opponent_progress != -1
 		grants_extra_turn = grants_extra_turn_
 
-	func apply(current_player: Player, _opponent_player: Player) -> void:
+	func apply(current_player: Player, opponent_player: Player) -> void:
 		current_player.pieces_left -= 1
 		current_player.pieces_progress.append(_target_progress)
+		if does_kill:
+			var j := opponent_player.pieces_progress.find(_opponent_progress)
+			opponent_player.pieces_progress.remove_at(j)
+			opponent_player.pieces_left += 1
 
 
 class MoveOnBoard extends Move:
@@ -183,8 +191,14 @@ func roll_die(die: int) -> void:
 		return
 
 	if current_player.pieces_left > 0 and not current_player.pieces_progress.has(die - 1):
-		var grants_extra_turn := GameParameters.rosette_extra_turn and current_player.path[die - 1] in rosettes
-		moves.append(MoveOntoBoard.new(current_player, die - 1, grants_extra_turn))
+		var target_position := current_player.path[die - 1]
+		var is_safe := GameParameters.rosette_safe and target_position in rosettes
+		var opponent_index := opponent_player.get_piece_at(target_position)
+		var opponent_progress := opponent_player.pieces_progress[opponent_index] if opponent_index != -1 else -1
+		var grants_extra_turn := GameParameters.rosette_extra_turn and target_position in rosettes or GameParameters.capture_extra_turn and opponent_progress != -1
+		
+		if not is_safe or opponent_progress == -1:
+			moves.append(MoveOntoBoard.new(current_player, die - 1, opponent_progress, grants_extra_turn))
 
 	for piece_progress in current_player.pieces_progress:
 		var target_progress := piece_progress + die
