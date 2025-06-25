@@ -233,6 +233,7 @@ func show_moves() -> void:
 		game_logic.apply_move(null)
 		roll_die()
 		show_moves()
+		return
 	
 	moves = Node3D.new()
 	add_child(moves)
