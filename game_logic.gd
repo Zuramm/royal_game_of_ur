@@ -14,6 +14,10 @@ class Player:
 	var pieces_progress: Array[int] = []
 	var pieces_safe: int = 0
 	var path: Array[int]
+
+	var is_done: bool:
+		get:
+			return pieces_left == 0 and pieces_progress.is_empty()
 	
 	func _init(color_: PlayerColor, pieces: int) -> void:
 		color = color_
@@ -151,6 +155,11 @@ var opponent_player: Player:
 				return _white_player
 			_:
 				return null
+
+
+var is_game_over: bool:
+	get:
+		return _white_player.is_done or _black_player.is_done
 
 
 func start() -> void:

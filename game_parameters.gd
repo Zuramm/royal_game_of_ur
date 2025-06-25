@@ -16,6 +16,38 @@ var capture_extra_turn := false
 #  6  7  8  9 10 11 12 13
 #  0  1  2  3        4  5
 
+
+var board_positions: Array[Vector3] = [
+	Vector3(-4, 0, 1),
+	Vector3(-3, 0, 1),
+	Vector3(-2, 0, 1),
+	Vector3(-1, 0, 1),
+	Vector3(2, 0, 1),
+	Vector3(3, 0, 1),
+	Vector3(-4, 0, 0),
+	Vector3(-3, 0, 0),
+	Vector3(-2, 0, 0),
+	Vector3(-1, 0, 0),
+	Vector3(0, 0, 0),
+	Vector3(1, 0, 0),
+	Vector3(2, 0, 0),
+	Vector3(3, 0, 0),
+	Vector3(-4, 0, -1),
+	Vector3(-3, 0, -1),
+	Vector3(-2, 0, -1),
+	Vector3(-1, 0, -1),
+	Vector3(2, 0, -1),
+	Vector3(3, 0, -1),
+]
+
+
+func map_positions(positions1: Array[int]) -> Array[Vector3]:
+	var result: Array[Vector3] = []
+	for position1 in positions1:
+		result.append(board_positions[position1])
+	return result
+
+
 var white_path: Array[int]:
 	get:
 		match path:
@@ -44,3 +76,32 @@ var black_path: Array[int]:
 			_:
 				push_error("Invalid path: ", path)
 				return []
+
+var black_start_position: Vector3:
+	get:
+		var p1 := board_positions[black_path[0]]
+		var p2 := board_positions[black_path[1]]
+		var v := p2 - p1
+		return p1 - v
+
+var white_start_position: Vector3:
+	get:
+		var p1 := board_positions[white_path[0]]
+		var p2 := board_positions[white_path[1]]
+		var v := p2 - p1
+		return p1 - v
+
+
+var black_end_position: Vector3:
+	get:
+		var p1 := board_positions[black_path[black_path.size() - 1]]
+		var p2 := board_positions[black_path[black_path.size() - 2]]
+		var v := p2 - p1
+		return p1 - v
+
+var white_end_position: Vector3:
+	get:
+		var p1 := board_positions[white_path[white_path.size() - 1]]
+		var p2 := board_positions[white_path[white_path.size() - 2]]
+		var v := p2 - p1
+		return p1 - v

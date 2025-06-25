@@ -6,11 +6,11 @@
 [ext_resource type="Script" uid="uid://db1yviutx7fsu" path="res://game_logic.gd" id="5_5307g"]
 [ext_resource type="ArrayMesh" uid="uid://cefkw7hpmph3v" path="res://model/PieceProc/Board_model.tres" id="6_qpk70"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_0mpfn"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_p1ry8"]
 size = Vector3(1, 0.2, 1)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_33g57"]
-size = Vector3(3, 1, 1.5)
+[sub_resource type="BoxShape3D" id="BoxShape3D_xlg7c"]
+size = Vector3(3.5, 0.2, 2)
 
 [sub_resource type="LabelSettings" id="LabelSettings_8paqi"]
 font_size = 48
@@ -46,18 +46,37 @@ add_uv2 = true
 size = Vector2(21.12, 12.22)
 orientation = 1
 
-[node name="Node3D" type="Node3D" node_paths=PackedStringArray("game_logic")]
+[node name="Node3D" type="Node3D" node_paths=PackedStringArray("game_logic", "white_start_transform", "white_board_transform", "white_end_transform", "black_start_transform", "black_board_transform", "black_end_transform")]
 script = ExtResource("1_qc12o")
 game_logic = NodePath("GameLogic")
 white_piece = ExtResource("2_ktw4a")
 black_piece = ExtResource("3_ciayw")
-board_shape = SubResource("BoxShape3D_0mpfn")
-board_offset = Vector3(2.08165e-12, 0.1, 2.08165e-12)
-left_shape = SubResource("BoxShape3D_33g57")
-left_position = Vector3(-3, -0.499, 2.5)
+board_shape = SubResource("BoxShape3D_p1ry8")
+left_shape = SubResource("BoxShape3D_xlg7c")
+left_position = Vector3(-2.5, -0.48, 3)
+white_start_transform = NodePath("WhiteStartTransform")
+white_board_transform = NodePath("BoardTransform")
+white_end_transform = NodePath("WhiteEndTransform")
+black_start_transform = NodePath("BlackStartTransform")
+black_board_transform = NodePath("BoardTransform")
+black_end_transform = NodePath("BlackEndTransform")
 
 [node name="GameLogic" type="Node" parent="." groups=["logic"]]
 script = ExtResource("5_5307g")
+
+[node name="WhiteStartTransform" type="Node3D" parent="."]
+transform = Transform3D(0.6, 0, 0, 0, 0.15, 0, 0, 0, 0.6, -2.5, -0.5, 3)
+
+[node name="WhiteEndTransform" type="Node3D" parent="."]
+transform = Transform3D(0.6, 0, 0, 0, 0.15, 0, 0, 0, 0.6, 1, -0.5, 1)
+
+[node name="BlackStartTransform" type="Node3D" parent="."]
+transform = Transform3D(0.6, 0, 0, 0, 0.15, 0, 0, 0, -0.6, -4.2, -0.5, -2.2)
+
+[node name="BlackEndTransform" type="Node3D" parent="."]
+transform = Transform3D(0.6, 0, 0, 0, 0.15, 0, 0, 0, -0.6, 1, -0.5, -1)
+
+[node name="BoardTransform" type="Node3D" parent="."]
 
 [node name="InGame" type="Control" parent="."]
 layout_mode = 3
@@ -133,6 +152,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, -0.5, 2.08165e-1
 shape = SubResource("WorldBoundaryShape3D_7pvwk")
 
 [node name="Floor" type="MeshInstance3D" parent="WorldBoundry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
 cast_shadow = 0
 mesh = SubResource("QuadMesh_a5hur")
 skeleton = NodePath("../..")
