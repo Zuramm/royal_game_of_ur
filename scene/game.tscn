@@ -1,11 +1,10 @@
-[gd_scene load_steps=18 format=3 uid="uid://bf0sjvijvf8oa"]
+[gd_scene load_steps=17 format=3 uid="uid://bf0sjvijvf8oa"]
 
 [ext_resource type="Script" uid="uid://b0vmnetgattrt" path="res://scene/game.gd" id="1_qc12o"]
 [ext_resource type="PackedScene" uid="uid://cyakx4s37d20g" path="res://entity/piece_white.tscn" id="2_ktw4a"]
 [ext_resource type="PackedScene" uid="uid://bk53htttkqvy" path="res://entity/piece_black.tscn" id="3_ciayw"]
 [ext_resource type="Script" uid="uid://db1yviutx7fsu" path="res://game_logic.gd" id="5_5307g"]
 [ext_resource type="ArrayMesh" uid="uid://cefkw7hpmph3v" path="res://model/PieceProc/Board_model.tres" id="6_qpk70"]
-[ext_resource type="Texture2D" uid="uid://ctb6373c8d427" path="res://texture/pretoria_gardens_2k.exr" id="9_dvqe3"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_0mpfn"]
 size = Vector3(1, 0.2, 1)
@@ -19,16 +18,18 @@ font_size = 48
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yi38b"]
 bg_color = Color(0.141176, 0.239216, 0.270588, 0.858824)
 
-[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_vhijp"]
-panorama = ExtResource("9_dvqe3")
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_p1ry8"]
+energy_multiplier = 2.0
 
-[sub_resource type="Sky" id="Sky_u5sy4"]
-sky_material = SubResource("PanoramaSkyMaterial_vhijp")
+[sub_resource type="Sky" id="Sky_xlg7c"]
+sky_material = SubResource("PhysicalSkyMaterial_p1ry8")
 
 [sub_resource type="Environment" id="Environment_wbha4"]
-background_mode = 2
-sky = SubResource("Sky_u5sy4")
+background_mode = 1
+sky = SubResource("Sky_xlg7c")
 ambient_light_source = 3
+reflected_light_source = 2
+tonemap_mode = 2
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_cx2al"]
 size = Vector3(8.2, 0.5, 3.2)
@@ -137,7 +138,7 @@ mesh = SubResource("QuadMesh_a5hur")
 skeleton = NodePath("../..")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.455713, -0.689458, -0.563004, 0.542603, -0.716566, 0.43831, -0.705626, -0.105744, 0.70065, 0, 1.42035, -1.56075)
+transform = Transform3D(-0.455713, -0.689458, -0.563004, 0.116633, -0.673296, 0.730116, -0.882452, 0.267059, 0.387244, 0, 1.42035, -1.56075)
 light_bake_mode = 1
 shadow_enabled = true
 
