@@ -9,12 +9,12 @@ const PATHS := [GameTypes.Path.BELL, GameTypes.Path.MASTER, GameTypes.Path.MURRA
 
 
 func _ready() -> void:
-	%DiceOptionButton.selected = DICE.find(GameParameters.dice)
-	%PathOptionButton.selected = PATHS.find(GameParameters.path)
-	%PiecesSlider.value = GameParameters.pieces
-	%RosetteSafe.button_pressed = GameParameters.rosette_safe
-	%RosetteExtraTurn.button_pressed = GameParameters.rosette_extra_turn
-	%CaptureExtraTurn.button_pressed = GameParameters.capture_extra_turn
+	(%DiceOptionButton as OptionButton).selected = DICE.find(GameParameters.dice)
+	(%PathOptionButton as OptionButton).selected = PATHS.find(GameParameters.path)
+	(%PiecesSlider as HSlider).value = GameParameters.pieces
+	(%RosetteSafe as CheckBox).button_pressed = GameParameters.rosette_safe
+	(%RosetteExtraTurn as CheckBox).button_pressed = GameParameters.rosette_extra_turn
+	(%CaptureExtraTurn as CheckBox).button_pressed = GameParameters.capture_extra_turn
 
 
 func _on_dice_option_button_item_selected(index: int) -> void:
