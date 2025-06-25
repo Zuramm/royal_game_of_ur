@@ -226,7 +226,13 @@ func roll_die() -> void:
 
 func show_moves() -> void:
 	if moves != null:
-		remove_child(moves)
+		moves.queue_free()
+		moves = null
+	
+	if game_logic.moves.is_empty():
+		game_logic.apply_move(null)
+		roll_die()
+		show_moves()
 	
 	moves = Node3D.new()
 	add_child(moves)
@@ -255,14 +261,13 @@ func show_moves() -> void:
 		if result != OK:
 			push_error(error_string(result))
 		moves.add_child(node)
-	
-	if game_logic.moves.is_empty():
-		game_logic.apply_move(null)
-		roll_die()
-		show_moves()
 
 
 func _on_move_selected(move: GameLogic.Move) -> void:
+	if moves != null:
+		for child in moves.get_children():
+			child.queue_free()
+		
 	if move is GameLogic.MoveOntoBoard:
 		var move_onto := move as GameLogic.MoveOntoBoard
 		print("chose move onto board: -> ", move_onto.target_position)
