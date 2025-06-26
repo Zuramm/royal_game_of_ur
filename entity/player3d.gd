@@ -2,6 +2,9 @@ class_name Player3D
 extends Node3D
 
 
+signal _animation_finished
+
+
 var _start_pieces: Array[Node3D] = []
 var _board_pieces: Array[Node3D] = []
 var _end_pieces: Array[Node3D] = []
@@ -35,6 +38,21 @@ func _compute_piece_end_position(index: int) -> Vector3:
 		end_transform = value
 		for i in range(_end_pieces.size()):
 			_end_pieces[i].position = end_transform * _compute_piece_end_position(i)
+
+
+var _animation_piece: Node3D = null
+var _animation_curve: Curve3D = null
+var _animation_speed: float = 0.5
+var _animation_time: float = 0.0
+
+
+func _process(delta: float) -> void:
+	if _animation_piece != null and _animation_curve != null and _animation_time < _animation_speed:
+		_animation_time += delta
+		var t := minf(_animation_time / _animation_speed, 1.0)
+		_animation_piece.position = _animation_curve.sample(0, t)
+		if t >= 1.0:
+			_animation_finished.emit()
 
 
 func setup() -> void:
@@ -94,15 +112,19 @@ func turn(moves: Array[GameLogic.Move], opponent: Player3D) -> GameLogic.Move:
 		print("Moving piece from board: ", move_from.piece_position, " to ", _end_pieces.size() - 1)
 		await _move_piece(node, end_transform * _compute_piece_end_position(_end_pieces.size() - 1))
 	elif move == null:
-		await get_tree().create_timer(0.1).timeout
+		await get_tree().create_timer(0.5).timeout
 	else:
 		push_error("Invalid move: ", move)
 	return move
 
 
 func _move_piece(piece: Node3D, to: Vector3) -> void:
-	await get_tree().create_timer(0.1).timeout
-	piece.position = to
+	_animation_piece = piece
+	_animation_curve = Curve3D.new()
+	_animation_curve.add_point(piece.position, Vector3.UP, Vector3.UP)
+	_animation_curve.add_point(to, Vector3.UP, Vector3.UP)
+	_animation_time = 0.0
+	await _animation_finished
 
 
 func _pick_move(moves: Array[GameLogic.Move]) -> GameLogic.Move:
