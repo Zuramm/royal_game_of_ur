@@ -114,6 +114,7 @@ func roll_die() -> void:
 			die = randi_range(0, 1) + randi_range(0, 1) + randi_range(0, 1) + randi_range(0, 1)
 	game_logic.roll_die(die)
 	_roll_label_node.text = "%s rolled %s" % [current_color_name, die]
+	_roll_label_node.label_settings.font_color = Color.WHITE if die > 0 else Color.SALMON
 
 
 func _on_game_logic_game_ended(player: GameLogic.Player) -> void:
