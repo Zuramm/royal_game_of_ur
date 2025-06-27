@@ -1,0 +1,15 @@
+[gd_resource type="QuadMesh" load_steps=3 format=3 uid="uid://bvjyawva5aoeu"]
+
+[ext_resource type="Texture2D" uid="uid://bq2aedqu17kom" path="res://textures/outline_end.png" id="1_flymu"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j8ice"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_texture = ExtResource("1_flymu")
+
+[resource]
+lightmap_size_hint = Vector2i(5, 8)
+material = SubResource("StandardMaterial3D_j8ice")
+size = Vector2(0.7, 1.4)
+orientation = 1

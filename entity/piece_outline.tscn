@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://kllpvdthvjqb"]
+
+[ext_resource type="Script" uid="uid://b7up6y4epvt14" path="res://entity/piece_outline.gd" id="1_d04mj"]
+
+[node name="PieceOutline" type="Node3D"]
+script = ExtResource("1_d04mj")

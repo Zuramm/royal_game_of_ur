@@ -35,18 +35,30 @@ func _pick_move(game_logic: GameLogic) -> GameLogic.Move:
 			node.collision_shape = start_collision_shape
 			node.collision_position = start_transform * Vector3.ZERO
 			node.does_kill = move_onto.does_kill
+			var outline := PieceOutline.new()
+			outline.number_of_pieces = game_logic.current_player.pieces_left
+			outline.position = start_transform * -Vector3(game_logic.current_player.pieces_left / 4.0, 0.0, 8 / 3.0)
+			node.add_child(outline)
 		elif move is GameLogic.MoveOnBoard:
 			var move_on := move as GameLogic.MoveOnBoard
 			node.positions = GameParameters.map_positions(move_on.path_positions)
 			node.collision_shape = board_collision_shape
 			node.collision_position = node.positions[0]
 			node.does_kill = move_on.does_kill
+			var outline := PieceOutline.new()
+			outline.number_of_pieces = 1
+			outline.position = node.positions[0]
+			node.add_child(outline)
 		elif move is GameLogic.MoveFromBoard:
 			var move_from := move as GameLogic.MoveFromBoard
 			node.positions = GameParameters.map_positions(move_from.path_positions)
 			node.positions.push_back(path_end_position)
 			node.collision_shape = board_collision_shape
 			node.collision_position = node.positions[0]
+			var outline := PieceOutline.new()
+			outline.number_of_pieces = 1
+			outline.position = node.positions[0]
+			node.add_child(outline)
 		var result := node.selected.connect(_on_move_selected.bind(move))
 		if result != OK:
 			push_error(error_string(result))

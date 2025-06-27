@@ -1,0 +1,15 @@
+[gd_resource type="QuadMesh" load_steps=3 format=3 uid="uid://bldf1yao4esci"]
+
+[ext_resource type="Texture2D" uid="uid://lpys5765gibi" path="res://textures/outline_middle.png" id="1_yxr0d"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2jg0s"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_texture = ExtResource("1_yxr0d")
+
+[resource]
+material = SubResource("StandardMaterial3D_2jg0s")
+size = Vector2(0.3, 1.4)
+center_offset = Vector3(0, 0, -0.003)
+orientation = 1
