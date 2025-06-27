@@ -12,9 +12,9 @@ var _end_pieces: Array[Node3D] = []
 
 func _compute_piece_start_position(index: int) -> Vector3:
 	var x_offset := roundf(GameParameters.pieces / 4.0)
-	var y_offset := 3.0 / 4.0 if GameParameters.pieces > 1 else 0.0
-	var y: float = (index % 2) * 3 / 2
-	var x: float = index / 2 + y / 2
+	var y_offset := sqrt(3.0) / 4.0 if GameParameters.pieces > 1 else 0.0
+	var y: float = (index % 2) * sqrt(3.0) / 2.0
+	var x: float = index / 2 + (index % 2) / 2.0
 	return Vector3(x - x_offset, 0, y - y_offset)
 
 

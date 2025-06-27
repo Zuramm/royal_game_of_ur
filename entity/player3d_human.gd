@@ -37,7 +37,7 @@ func _pick_move(game_logic: GameLogic) -> GameLogic.Move:
 			node.does_kill = move_onto.does_kill
 			var outline := PieceOutline.new()
 			outline.number_of_pieces = game_logic.current_player.pieces_left
-			outline.position = start_transform * -Vector3(game_logic.current_player.pieces_left / 4.0, 0.0, 8 / 3.0)
+			outline.position = start_transform * _compute_piece_start_position(0) + Vector3.UP * 0.01
 			node.add_child(outline)
 		elif move is GameLogic.MoveOnBoard:
 			var move_on := move as GameLogic.MoveOnBoard
