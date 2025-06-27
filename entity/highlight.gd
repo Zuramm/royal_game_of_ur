@@ -61,7 +61,7 @@ func update_mesh() -> void:
 	var corner_fill := -corner + thickness_3
 	var thickness_diag := thickness * sqrt(2)
 	
-	for i in range(0, ceilf((width + height - thickness_diag * 2.0) / (thickness_diag * 2.0))):
+	for i in range(0, floorf((width + height - thickness_diag * 2.0) / (thickness_diag * 2.0))):
 		var offset_0 := i * thickness_diag * 2.0
 		var offset_1 := i * thickness_diag * 2.0 + thickness_diag
 		
