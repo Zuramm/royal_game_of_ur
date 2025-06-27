@@ -1,8 +1,9 @@
-class_name Player3DAIFast
-extends Player3D
+class_name AIFast
+extends AI
 
 
-func _pick_move(_game_logic: GameLogic, moves: Array[GameLogic.Move]) -> GameLogic.Move:
+func pick_move(game_logic: GameLogic) -> GameLogic.Move:
+	var moves := game_logic.moves
 	var best_move: GameLogic.Move = null
 	var best_score: int = -1
 

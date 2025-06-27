@@ -1,5 +1,5 @@
-class_name Player3DAICursor
-extends Player3D
+class_name AICursor
+extends AI
 
 # AI configuration
 const MAX_DEPTH = 4
@@ -14,7 +14,8 @@ const WEIGHT_ROSETTE = 30
 const WEIGHT_BLOCKING_OPPONENT = 25
 const WEIGHT_PIECE_LEFT = -10
 
-func _pick_move(game_logic: GameLogic, moves: Array[GameLogic.Move]) -> GameLogic.Move:
+func pick_move(game_logic: GameLogic) -> GameLogic.Move:
+	var moves := game_logic.moves
 	if moves.is_empty():
 		return null
 	

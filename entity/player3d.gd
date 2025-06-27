@@ -83,8 +83,8 @@ func setup() -> void:
 		push_error("Failed to resize board pieces: ", error_string(result))
 
 
-func turn(game_logic: GameLogic, moves: Array[GameLogic.Move], opponent: Player3D) -> GameLogic.Move:
-	var move: GameLogic.Move = await _pick_move(game_logic, moves)
+func turn(game_logic: GameLogic, opponent: Player3D) -> GameLogic.Move:
+	var move: GameLogic.Move = await _pick_move(game_logic)
 	if move is GameLogic.MoveOntoBoard:
 		var move_onto := move as GameLogic.MoveOntoBoard
 		var node: Node3D = _start_pieces.pop_back()
@@ -127,9 +127,9 @@ func _move_piece(piece: Node3D, to: Vector3) -> void:
 	await _animation_finished
 
 
-func _pick_move(_game_logic: GameLogic, moves: Array[GameLogic.Move]) -> GameLogic.Move:
+func _pick_move(game_logic: GameLogic) -> GameLogic.Move:
 	await get_tree().create_timer(0.1).timeout
-	return moves[0]
+	return game_logic.moves[0]
 
 
 func kill_piece(piece_position: int) -> void:

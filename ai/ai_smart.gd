@@ -1,5 +1,5 @@
-class_name Player3DAISmart
-extends Player3D
+class_name AISmart
+extends AI
 
 # Scoring weights for different move types
 const WEIGHT_SAFE_PIECE = 1000
@@ -10,7 +10,8 @@ const WEIGHT_PROGRESS = 30
 const WEIGHT_BLOCKING = 25
 const WEIGHT_PIECE_LEFT = -15
 
-func _pick_move(game_logic: GameLogic, moves: Array[GameLogic.Move]) -> GameLogic.Move:
+func pick_move(game_logic: GameLogic) -> GameLogic.Move:
+	var moves := game_logic.moves
 	if moves.is_empty():
 		return null
 	
