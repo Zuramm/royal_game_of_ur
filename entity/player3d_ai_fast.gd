@@ -2,7 +2,7 @@ class_name Player3DAIFast
 extends Player3D
 
 
-func _pick_move(moves: Array[GameLogic.Move]) -> GameLogic.Move:
+func _pick_move(_game_logic: GameLogic, moves: Array[GameLogic.Move]) -> GameLogic.Move:
 	var best_move: GameLogic.Move = null
 	var best_score: int = -1
 

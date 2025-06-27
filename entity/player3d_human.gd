@@ -14,7 +14,7 @@ var _moves_group: Node3D = null
 @export var path_end_position: Vector3
 
 
-func _pick_move(moves: Array[GameLogic.Move]) -> GameLogic.Move:
+func _pick_move(_game_logic: GameLogic, moves: Array[GameLogic.Move]) -> GameLogic.Move:
 	if _moves_group != null:
 		_moves_group.queue_free()
 		_moves_group = null

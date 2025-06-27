@@ -29,13 +29,15 @@ var black_player: Player3D
 
 
 func _ready() -> void:
-	var player := Player3DHuman.new()
+	var player: Player3D = Player3DAICursor.new()
 	player.piece_scene = white_piece
 	player.start_transform = white_start_transform.transform
 	player.board_transform = white_board_transform.transform
 	player.end_transform = white_end_transform.transform
-	player.start_collision_shape = left_shape
-	player.board_collision_shape = board_shape
+	if player is Player3DHuman:
+		var human_player := player as Player3DHuman
+		human_player.path_start_position = GameParameters.white_start_position
+		human_player.path_end_position = GameParameters.white_end_position
 	white_player = player
 	add_child(white_player)
 	black_player = Player3DAIFast.new()
@@ -43,6 +45,10 @@ func _ready() -> void:
 	black_player.start_transform = black_start_transform.transform
 	black_player.board_transform = black_board_transform.transform
 	black_player.end_transform = black_end_transform.transform
+	if player is Player3DHuman:
+		var human_player := player as Player3DHuman
+		human_player.path_start_position = GameParameters.white_start_position
+		human_player.path_end_position = GameParameters.white_end_position
 	add_child(black_player)
 
 	reset()
@@ -83,7 +89,7 @@ func game_loop() -> void:
 				push_error("Unknown player color: ", game_logic.current_player.color)
 				player = null
 		roll_die()
-		var move := await player.turn(game_logic.moves, opponent)
+		var move := await player.turn(game_logic, game_logic.moves, opponent)
 		game_logic.apply_move(move)
 
 

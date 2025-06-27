@@ -30,6 +30,13 @@ class Player:
 				return i
 		return -1
 	
+	func clone() -> Player:
+		var player := Player.new(color, pieces_left)
+		player.pieces_progress = pieces_progress.duplicate()
+		player.pieces_safe = pieces_safe
+		player.path = path.duplicate()
+		return player
+
 	func debug() -> void:
 		match color:
 			PlayerColor.white:
@@ -168,6 +175,14 @@ var opponent_player: Player:
 var is_game_over: bool:
 	get:
 		return _white_player.is_done or _black_player.is_done
+
+
+func clone() -> GameLogic:
+	var game_logic := GameLogic.new()
+	game_logic._white_player = _white_player.clone()
+	game_logic._black_player = _black_player.clone()
+	game_logic._current_player_color = _current_player_color
+	return game_logic
 
 
 func start() -> void:
