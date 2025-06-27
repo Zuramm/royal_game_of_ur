@@ -152,7 +152,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, -0.5, 2.08165e-1
 shape = SubResource("WorldBoundaryShape3D_7pvwk")
 
 [node name="Floor" type="MeshInstance3D" parent="WorldBoundry"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
 cast_shadow = 0
 mesh = SubResource("QuadMesh_a5hur")
 skeleton = NodePath("../..")
