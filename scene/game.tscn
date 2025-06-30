@@ -157,10 +157,9 @@ mesh = SubResource("QuadMesh_a5hur")
 skeleton = NodePath("../..")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.455713, -0.689458, -0.563004, 0.116633, -0.673296, 0.730116, -0.882452, 0.267059, 0.387244, 0, 1.42035, -1.56075)
+transform = Transform3D(-0.498487, -0.674657, 0.544379, 0, 0.627963, 0.778243, -0.866896, 0.387945, -0.313032, 0, 1.42035, -1.56075)
 light_bake_mode = 1
 shadow_enabled = true
 
-[connection signal="game_ended" from="GameLogic" to="." method="_on_game_logic_game_ended"]
 [connection signal="pressed" from="GameOver/VBoxContainer/Button" to="." method="_on_button_pressed"]
 [connection signal="mouse_entered" from="Board2" to="." method="_on_board_2_mouse_entered"]

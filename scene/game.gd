@@ -29,7 +29,7 @@ var black_player: Player3D
 
 
 func _ready() -> void:
-	var player: Player3D = Player3DAI.new()
+	var player: Player3D = Player3DHuman.new()
 	player.piece_scene = white_piece
 	player.start_transform = white_start_transform.transform
 	player.board_transform = white_board_transform.transform
@@ -38,6 +38,8 @@ func _ready() -> void:
 		var human_player := player as Player3DHuman
 		human_player.path_start_position = GameParameters.white_start_position
 		human_player.path_end_position = GameParameters.white_end_position
+		human_player.start_collision_shape = left_shape
+		human_player.board_collision_shape = board_shape
 	elif player is Player3DAI:
 		var ai_player := player as Player3DAI
 		ai_player.ai = AICursor.new()
@@ -52,6 +54,8 @@ func _ready() -> void:
 		var human_player := player as Player3DHuman
 		human_player.path_start_position = GameParameters.white_start_position
 		human_player.path_end_position = GameParameters.white_end_position
+		human_player.start_collision_shape = left_shape
+		human_player.board_collision_shape = board_shape
 	elif player is Player3DAI:
 		var ai_player := player as Player3DAI
 		ai_player.ai = AIFast.new()

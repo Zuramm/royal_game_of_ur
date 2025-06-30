@@ -1,5 +1,4 @@
 class_name GameLogic
-extends Node
 
 
 enum PlayerColor {
@@ -130,19 +129,16 @@ class MoveFromBoard extends Move:
 		current_player.pieces_safe += 1
 
 
-signal piece_moved(move: Move)
-signal game_ended(player: Player)
-
 #  0  1  2  3        4  5
 #  6  7  8  9 10 11 12 13
 # 14 15 16 17       18 19
 
 var rosettes: Array[int] = [0, 4, 9, 14, 18]
 
-@onready var white_path: Array[int] = GameParameters.white_path
-@onready var black_path: Array[int] = GameParameters.black_path
+var white_path: Array[int] = GameParameters.white_path
+var black_path: Array[int] = GameParameters.black_path
 
-@onready var pieces: int = GameParameters.pieces
+var pieces: int = GameParameters.pieces
 
 var moves: Array[Move]
 
@@ -198,8 +194,7 @@ func start() -> void:
 
 
 func roll_die(die: int) -> void:
-	print("rolling die %s" % die)
-
+	# print("rolling die %s" % die)
 	moves = []
 
 	if die == 0:
@@ -232,7 +227,7 @@ func roll_die(die: int) -> void:
 			if not is_safe or opponent_progress == -1:
 				moves.append(MoveOnBoard.new(current_player, piece_progress, target_progress, opponent_progress, grants_extra_turn))
 
-	current_player.debug()
+	# current_player.debug()
 
 
 func apply_move(move: Move) -> void:
@@ -240,9 +235,6 @@ func apply_move(move: Move) -> void:
 	if move != null:
 		extra_turn = move.grants_extra_turn
 		move.apply(current_player, opponent_player)
-		piece_moved.emit(move)
-		if current_player.pieces_left == 0 and current_player.pieces_progress.is_empty():
-			game_ended.emit(current_player)
 	
 	if not extra_turn:
 		_current_player_color = (1 - _current_player_color as int) as PlayerColor
