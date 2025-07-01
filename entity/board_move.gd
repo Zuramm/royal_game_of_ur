@@ -34,7 +34,6 @@ func _ready() -> void:
 	_mesh_node.visible = false
 	if does_kill:
 		_mesh_node.material_override = preload("res://entity/board_move_material_kill.tres")
-		_highlight_node.material_override = _mesh_node.material_override
 	update_path()
 
 

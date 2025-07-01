@@ -1,7 +1,7 @@
 extends Node3D
 
 
-@export var game_logic: GameLogic
+var game_logic := GameLogic.new()
 @export var white_piece: PackedScene
 @export var black_piece: PackedScene
 

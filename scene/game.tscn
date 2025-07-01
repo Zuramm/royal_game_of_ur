@@ -1,9 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://bf0sjvijvf8oa"]
+[gd_scene load_steps=16 format=3 uid="uid://bf0sjvijvf8oa"]
 
 [ext_resource type="Script" uid="uid://b0vmnetgattrt" path="res://scene/game.gd" id="1_qc12o"]
 [ext_resource type="PackedScene" uid="uid://cyakx4s37d20g" path="res://entity/piece_white.tscn" id="2_ktw4a"]
 [ext_resource type="PackedScene" uid="uid://bk53htttkqvy" path="res://entity/piece_black.tscn" id="3_ciayw"]
-[ext_resource type="Script" uid="uid://db1yviutx7fsu" path="res://game_logic.gd" id="5_5307g"]
 [ext_resource type="ArrayMesh" uid="uid://cefkw7hpmph3v" path="res://model/PieceProc/Board_model.tres" id="6_qpk70"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_p1ry8"]
@@ -46,9 +45,8 @@ add_uv2 = true
 size = Vector2(21.12, 12.22)
 orientation = 1
 
-[node name="Node3D" type="Node3D" node_paths=PackedStringArray("game_logic", "white_start_transform", "white_board_transform", "white_end_transform", "black_start_transform", "black_board_transform", "black_end_transform")]
+[node name="Node3D" type="Node3D" node_paths=PackedStringArray("white_start_transform", "white_board_transform", "white_end_transform", "black_start_transform", "black_board_transform", "black_end_transform")]
 script = ExtResource("1_qc12o")
-game_logic = NodePath("GameLogic")
 white_piece = ExtResource("2_ktw4a")
 black_piece = ExtResource("3_ciayw")
 board_shape = SubResource("BoxShape3D_p1ry8")
@@ -60,9 +58,6 @@ white_end_transform = NodePath("WhiteEndTransform")
 black_start_transform = NodePath("BlackStartTransform")
 black_board_transform = NodePath("BoardTransform")
 black_end_transform = NodePath("BlackEndTransform")
-
-[node name="GameLogic" type="Node" parent="." groups=["logic"]]
-script = ExtResource("5_5307g")
 
 [node name="WhiteStartTransform" type="Node3D" parent="."]
 transform = Transform3D(0.6, 0, 0, 0, 0.15, 0, 0, 0, 0.6, -2.5, -0.5, 3)
