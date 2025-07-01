@@ -17,6 +17,7 @@ config/icon="uid://dqtp6uf1p1nm3"
 
 [autoload]
 
+UiScale="*res://ui_scale.gd"
 GameParameters="*res://game_parameters.gd"
 
 [debug]

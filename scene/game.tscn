@@ -20,12 +20,12 @@ bg_color = Color(0.141176, 0.239216, 0.270588, 0.858824)
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_p1ry8"]
 energy_multiplier = 2.0
 
-[sub_resource type="Sky" id="Sky_xlg7c"]
+[sub_resource type="Sky" id="Sky_xwcet"]
 sky_material = SubResource("PhysicalSkyMaterial_p1ry8")
 
 [sub_resource type="Environment" id="Environment_wbha4"]
 background_mode = 1
-sky = SubResource("Sky_xlg7c")
+sky = SubResource("Sky_xwcet")
 ambient_light_source = 3
 reflected_light_source = 2
 tonemap_mode = 2
@@ -35,12 +35,12 @@ size = Vector3(8.2, 0.5, 3.2)
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_7pvwk"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qlkad"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p1ry8"]
 albedo_color = Color(0.141176, 0.239216, 0.270588, 1)
 
 [sub_resource type="QuadMesh" id="QuadMesh_a5hur"]
 lightmap_size_hint = Vector2i(107, 63)
-material = SubResource("StandardMaterial3D_qlkad")
+material = SubResource("StandardMaterial3D_p1ry8")
 add_uv2 = true
 size = Vector2(21.12, 12.22)
 orientation = 1

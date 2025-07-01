@@ -5,31 +5,36 @@
 [sub_resource type="LabelSettings" id="LabelSettings_oyals"]
 font_size = 28
 
-[node name="Setup" type="MarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+horizontal_scroll_mode = 0
+
+[node name="Setup" type="MarginContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 script = ExtResource("1_krdnw")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="Setup"]
 layout_mode = 2
 
-[node name="Title" type="Label" parent="VBoxContainer"]
+[node name="Title" type="Label" parent="Setup/VBoxContainer"]
 layout_mode = 2
 text = "Setup a Game of Ur"
 label_settings = SubResource("LabelSettings_oyals")
 
-[node name="DiceLabel" type="Label" parent="VBoxContainer"]
+[node name="DiceLabel" type="Label" parent="Setup/VBoxContainer"]
 layout_mode = 2
 text = "Dice"
 
-[node name="DiceOptionButton" type="OptionButton" parent="VBoxContainer"]
+[node name="DiceOptionButton" type="OptionButton" parent="Setup/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 selected = 3
@@ -43,11 +48,11 @@ popup/item_2/id = 2
 popup/item_3/text = "Four binary dice"
 popup/item_3/id = 3
 
-[node name="PathLabel" type="Label" parent="VBoxContainer"]
+[node name="PathLabel" type="Label" parent="Setup/VBoxContainer"]
 layout_mode = 2
 text = "Path"
 
-[node name="PathOptionButton" type="OptionButton" parent="VBoxContainer"]
+[node name="PathOptionButton" type="OptionButton" parent="Setup/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 selected = 0
@@ -61,11 +66,11 @@ popup/item_2/id = 2
 popup/item_3/text = "Skiriuk's Path"
 popup/item_3/id = 3
 
-[node name="Pieces" type="Label" parent="VBoxContainer"]
+[node name="Pieces" type="Label" parent="Setup/VBoxContainer"]
 layout_mode = 2
 text = "Pieces"
 
-[node name="PiecesSlider" type="HSlider" parent="VBoxContainer"]
+[node name="PiecesSlider" type="HSlider" parent="Setup/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 min_value = 1.0
@@ -74,40 +79,40 @@ value = 5.0
 tick_count = 11
 ticks_on_borders = true
 
-[node name="RosetteSafe" type="CheckBox" parent="VBoxContainer"]
+[node name="RosetteSafe" type="CheckBox" parent="Setup/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Pieces on rosettes are safe from capture"
 
-[node name="RosetteExtraTurn" type="CheckBox" parent="VBoxContainer"]
+[node name="RosetteExtraTurn" type="CheckBox" parent="Setup/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Rosettes grant an extra roll"
 
-[node name="CaptureExtraTurn" type="CheckBox" parent="VBoxContainer"]
+[node name="CaptureExtraTurn" type="CheckBox" parent="Setup/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Captures grant an extra roll"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Setup/VBoxContainer"]
 layout_mode = 2
 
-[node name="CancelButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="CancelButton" type="Button" parent="Setup/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Cancel"
 
-[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer"]
+[node name="Control" type="Control" parent="Setup/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="StartButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="StartButton" type="Button" parent="Setup/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Start Game"
 
-[connection signal="item_selected" from="VBoxContainer/DiceOptionButton" to="." method="_on_dice_option_button_item_selected"]
-[connection signal="item_selected" from="VBoxContainer/PathOptionButton" to="." method="_on_path_option_button_item_selected"]
-[connection signal="value_changed" from="VBoxContainer/PiecesSlider" to="." method="_on_pieces_slider_value_changed"]
-[connection signal="toggled" from="VBoxContainer/RosetteSafe" to="." method="_on_rosette_safe_toggled"]
-[connection signal="toggled" from="VBoxContainer/RosetteExtraTurn" to="." method="_on_rosette_extra_turn_toggled"]
-[connection signal="toggled" from="VBoxContainer/CaptureExtraTurn" to="." method="_on_capture_extra_turn_toggled"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="item_selected" from="Setup/VBoxContainer/DiceOptionButton" to="Setup" method="_on_dice_option_button_item_selected"]
+[connection signal="item_selected" from="Setup/VBoxContainer/PathOptionButton" to="Setup" method="_on_path_option_button_item_selected"]
+[connection signal="value_changed" from="Setup/VBoxContainer/PiecesSlider" to="Setup" method="_on_pieces_slider_value_changed"]
+[connection signal="toggled" from="Setup/VBoxContainer/RosetteSafe" to="Setup" method="_on_rosette_safe_toggled"]
+[connection signal="toggled" from="Setup/VBoxContainer/RosetteExtraTurn" to="Setup" method="_on_rosette_extra_turn_toggled"]
+[connection signal="toggled" from="Setup/VBoxContainer/CaptureExtraTurn" to="Setup" method="_on_capture_extra_turn_toggled"]
+[connection signal="pressed" from="Setup/VBoxContainer/HBoxContainer/StartButton" to="Setup" method="_on_start_button_pressed"]

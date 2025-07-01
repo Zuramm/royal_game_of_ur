@@ -1,26 +1,75 @@
-[gd_scene load_steps=10 format=3 uid="uid://rys751pf3sbr"]
+[gd_scene load_steps=12 format=3 uid="uid://rys751pf3sbr"]
 
 [ext_resource type="Script" uid="uid://jj7c8ctqr3q5" path="res://scene/title.gd" id="1_b3w7a"]
-[ext_resource type="Texture2D" uid="uid://ctb6373c8d427" path="res://texture/pretoria_gardens_2k.exr" id="1_pyl7j"]
 [ext_resource type="PackedScene" uid="uid://b1kr5pyms84e" path="res://model/PieceProc/Die.glb" id="2_b3w7a"]
 [ext_resource type="PackedScene" uid="uid://dq6bvd5gfq0l0" path="res://model/PieceProc/WhitePiece.glb" id="3_4rr2b"]
 [ext_resource type="PackedScene" uid="uid://c4l4xxkexhlbe" path="res://model/PieceProc/BlackPiece.glb" id="4_yql1r"]
 
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_qaeh8"]
+energy_multiplier = 2.0
+
+[sub_resource type="Sky" id="Sky_xlg7c"]
+sky_material = SubResource("PhysicalSkyMaterial_qaeh8")
+
+[sub_resource type="Environment" id="Environment_ycsd2"]
+background_mode = 1
+sky = SubResource("Sky_xlg7c")
+ambient_light_source = 3
+reflected_light_source = 2
+tonemap_mode = 2
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_th0ar"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qlkad"]
+albedo_color = Color(0.141176, 0.239216, 0.270588, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_5xh2k"]
+lightmap_size_hint = Vector2i(107, 63)
+material = SubResource("StandardMaterial3D_qlkad")
+add_uv2 = true
+size = Vector2(21.12, 12.22)
+orientation = 1
+
 [sub_resource type="LabelSettings" id="LabelSettings_4rr2b"]
 font_size = 32
 
-[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_ia1n6"]
-panorama = ExtResource("1_pyl7j")
+[node name="Node3D" type="Node3D"]
 
-[sub_resource type="Sky" id="Sky_6btlq"]
-sky_material = SubResource("PanoramaSkyMaterial_ia1n6")
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.974761, -0.174717, 0.138976, 0, 0.622515, 0.782608, -0.22325, -0.762856, 0.606803, 1.7, 5.98, 4.63)
+keep_aspect = 0
+projection = 1
+size = 11.784
+near = 2.54
+far = 15.33
 
-[sub_resource type="Environment" id="Environment_hiwto"]
-background_mode = 2
-sky = SubResource("Sky_6btlq")
-ambient_light_source = 3
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Camera3D"]
+environment = SubResource("Environment_ycsd2")
 
-[node name="Title" type="CenterContainer"]
+[node name="WorldBoundry" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, -0.5, 2.08165e-12)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WorldBoundry"]
+shape = SubResource("WorldBoundaryShape3D_th0ar")
+
+[node name="Floor" type="MeshInstance3D" parent="WorldBoundry"]
+cast_shadow = 0
+mesh = SubResource("QuadMesh_5xh2k")
+skeleton = NodePath("")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.0204063, -0.859746, 0.510314, -0.109683, 0.509264, 0.853592, -0.993757, -0.0385543, -0.104692, 0, 1.42035, -1.56075)
+
+[node name="Die" parent="." instance=ExtResource("2_b3w7a")]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -1.44204, 0.270298, 2.09788)
+
+[node name="WhitePiece" parent="." instance=ExtResource("3_4rr2b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.785306, 0, 2.46628)
+
+[node name="BlackPiece" parent="." instance=ExtResource("4_yql1r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.261463, 0, 1.9638)
+
+[node name="Title" type="CenterContainer" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -28,49 +77,18 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_b3w7a")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="Title"]
 layout_mode = 2
 
-[node name="GameTitle" type="Label" parent="VBoxContainer"]
+[node name="GameTitle" type="Label" parent="Title/VBoxContainer"]
 layout_mode = 2
 text = "The Royal Game of Ur"
 label_settings = SubResource("LabelSettings_4rr2b")
 horizontal_alignment = 1
 
-[node name="StartButton" type="Button" parent="VBoxContainer"]
+[node name="StartButton" type="Button" parent="Title/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Start game"
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="VBoxContainer"]
-custom_minimum_size = Vector2(256, 256)
-layout_mode = 2
-
-[node name="SubViewport" type="SubViewport" parent="VBoxContainer/SubViewportContainer"]
-transparent_bg = true
-handle_input_locally = false
-size = Vector2i(512, 400)
-render_target_update_mode = 4
-
-[node name="Node3D" type="Node3D" parent="VBoxContainer/SubViewportContainer/SubViewport"]
-
-[node name="Camera3D" type="Camera3D" parent="VBoxContainer/SubViewportContainer/SubViewport/Node3D"]
-transform = Transform3D(1, 0, 0, 0, 0.732495, 0.680772, 0, -0.680772, 0.732495, 0.273736, 2.02143, 2.02412)
-fov = 37.2933
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="VBoxContainer/SubViewportContainer/SubViewport/Node3D/Camera3D"]
-environment = SubResource("Environment_hiwto")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="VBoxContainer/SubViewportContainer/SubViewport/Node3D"]
-transform = Transform3D(-0.0204063, -0.859746, 0.510314, -0.109683, 0.509264, 0.853592, -0.993757, -0.0385543, -0.104692, 0, 1.42035, -1.56075)
-
-[node name="Die" parent="VBoxContainer/SubViewportContainer/SubViewport/Node3D" instance=ExtResource("2_b3w7a")]
-transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -0.19, 0.270298, 0)
-
-[node name="WhitePiece" parent="VBoxContainer/SubViewportContainer/SubViewport/Node3D" instance=ExtResource("3_4rr2b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.466738, 0, 0.368397)
-
-[node name="BlackPiece" parent="VBoxContainer/SubViewportContainer/SubViewport/Node3D" instance=ExtResource("4_yql1r")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.990581, 0, -0.134081)
-
-[connection signal="pressed" from="VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="Title/VBoxContainer/StartButton" to="Title" method="_on_start_button_pressed"]
