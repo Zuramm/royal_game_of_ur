@@ -102,6 +102,7 @@ func game_loop() -> void:
 		roll_die()
 		var move := await player.turn(game_logic, opponent)
 		game_logic.apply_move(move)
+	_on_game_logic_game_ended(game_logic.current_player)
 
 
 var current_color_name: String:
