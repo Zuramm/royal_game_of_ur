@@ -32,6 +32,11 @@ gdscript/warnings/integer_division=0
 gdscript/warnings/int_as_enum_without_cast=0
 gdscript/warnings/int_as_enum_without_match=0
 
+[display]
+
+window/size/mode=3
+window/size/resizable=false
+
 [input]
 
 hkj={
@@ -41,5 +46,6 @@ hkj={
 
 [rendering]
 
-renderer/rendering_method.mobile="gl_compatibility"
 textures/vram_compression/import_etc2_astc=true
+anti_aliasing/quality/msaa_2d=1
+anti_aliasing/quality/screen_space_aa=1
