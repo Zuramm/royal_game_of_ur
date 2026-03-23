@@ -12,6 +12,7 @@ var rosette_extra_turn := true
 var capture_extra_turn := false
 
 
+
 # 14 15 16 17       18 19
 #  6  7  8  9 10 11 12 13
 #  0  1  2  3        4  5
