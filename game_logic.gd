@@ -236,5 +236,5 @@ func apply_move(move: Move) -> void:
 		extra_turn = move.grants_extra_turn
 		move.apply(current_player, opponent_player)
 	
-	if not extra_turn:
+	if not extra_turn and not is_game_over:
 		_current_player_color = (1 - _current_player_color as int) as PlayerColor
