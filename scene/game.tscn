@@ -114,12 +114,16 @@ size_flags_vertical = 0
 text = "White won"
 label_settings = SubResource("LabelSettings_8paqi")
 
-[node name="Button" type="Button" parent="GameOver/VBoxContainer" unique_id=1387440880]
+[node name="PlayAgainButton" type="Button" parent="GameOver/VBoxContainer" unique_id=1387440880]
 layout_mode = 2
 text = "Play again"
 
+[node name="TitleButton" type="Button" parent="GameOver/VBoxContainer" unique_id=2105818194]
+layout_mode = 2
+text = "To Title Screen"
+
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1022069834]
-transform = Transform3D(0.97476125, -0.17471725, 0.1389765, 0, 0.62251496, 0.7826079, -0.22325006, -0.7628558, 0.6068034, -0.4690392, 5.98, 4.2089624)
+transform = Transform3D(0.974761, -0.174717, 0.138976, 0, 0.622515, 0.782608, -0.22325, -0.762856, 0.606803, 1.7, 5.98, 4.63)
 keep_aspect = 0
 projection = 1
 size = 11.784
@@ -156,5 +160,6 @@ transform = Transform3D(-0.498487, -0.674657, 0.544379, 0, 0.627963, 0.778243, -
 light_bake_mode = 1
 shadow_enabled = true
 
-[connection signal="pressed" from="GameOver/VBoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="GameOver/VBoxContainer/PlayAgainButton" to="." method="_on_play_again_button_pressed"]
+[connection signal="pressed" from="GameOver/VBoxContainer/TitleButton" to="." method="_on_title_button_pressed"]
 [connection signal="mouse_entered" from="Board2" to="." method="_on_board_2_mouse_entered"]

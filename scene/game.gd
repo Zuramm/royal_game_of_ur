@@ -1,6 +1,9 @@
 extends Node3D
 
 
+var _title_scene: PackedScene = load("res://scene/title.tscn")
+
+
 var game_logic := GameLogic.new()
 @export var white_piece: PackedScene
 @export var black_piece: PackedScene
@@ -146,5 +149,11 @@ func _on_game_logic_game_ended(player: GameLogic.Player) -> void:
 			_winner_label_node.text = "Black won"
 
 
-func _on_button_pressed() -> void:
+func _on_play_again_button_pressed() -> void:
 	reset()
+
+
+func _on_title_button_pressed() -> void:
+	var result := get_tree().change_scene_to_packed(_title_scene)
+	if result != OK:
+		push_error("Failed to load game scene: ", error_string(result))
