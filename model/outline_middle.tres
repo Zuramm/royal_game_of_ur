@@ -1,4 +1,4 @@
-[gd_resource type="QuadMesh" load_steps=3 format=3 uid="uid://bldf1yao4esci"]
+[gd_resource type="QuadMesh" format=3 uid="uid://bldf1yao4esci"]
 
 [ext_resource type="Texture2D" uid="uid://lpys5765gibi" path="res://textures/outline_middle.png" id="1_yxr0d"]
 

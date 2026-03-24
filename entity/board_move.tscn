@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://b7gs0dty2ntd0"]
+[gd_scene format=3 uid="uid://b7gs0dty2ntd0"]
 
 [ext_resource type="Script" uid="uid://c6ijaqdspfxe3" path="res://entity/board_move.gd" id="1_7741b"]
 [ext_resource type="Material" uid="uid://b657w51ry45wn" path="res://entity/board_move_material.tres" id="2_fyvdp"]
@@ -6,13 +6,13 @@
 [sub_resource type="ImmediateMesh" id="ImmediateMesh_2cv20"]
 resource_local_to_scene = true
 
-[node name="BoardMove" type="Area3D"]
+[node name="BoardMove" type="Area3D" unique_id=750309125]
 script = ExtResource("1_7741b")
 thickness = 0.15
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1436518486]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1036114039]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.03, 0)
 material_override = ExtResource("2_fyvdp")
 cast_shadow = 0

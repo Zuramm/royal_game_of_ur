@@ -1,0 +1,69 @@
+[gd_scene format=3 uid="uid://efnwrr066231"]
+
+[ext_resource type="ArrayMesh" uid="uid://cefkw7hpmph3v" path="res://model/PieceProc/Board_model.tres" id="1_unw2l"]
+[ext_resource type="PackedScene" uid="uid://b7gs0dty2ntd0" path="res://entity/board_move.tscn" id="2_srtgk"]
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_wd566"]
+energy_multiplier = 2.0
+
+[sub_resource type="Sky" id="Sky_xwcet"]
+sky_material = SubResource("PhysicalSkyMaterial_wd566")
+
+[sub_resource type="Environment" id="Environment_2nw7c"]
+background_mode = 1
+sky = SubResource("Sky_xwcet")
+ambient_light_source = 3
+reflected_light_source = 2
+tonemap_mode = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p1ry8"]
+albedo_color = Color(0.141176, 0.239216, 0.270588, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_n4fkp"]
+lightmap_size_hint = Vector2i(107, 63)
+material = SubResource("StandardMaterial3D_p1ry8")
+add_uv2 = true
+size = Vector2(21.12, 12.22)
+orientation = 1
+
+[node name="Node3D" type="Node3D" unique_id=860302971]
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=421347042]
+transform = Transform3D(0.97476125, -0.17471725, 0.1389765, 0, 0.62251496, 0.7826079, -0.22325006, -0.7628558, 0.6068034, -0.4690392, 5.98, 4.2089624)
+keep_aspect = 0
+projection = 1
+size = 11.784
+near = 2.54
+far = 15.33
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Camera3D" unique_id=423219934]
+environment = SubResource("Environment_2nw7c")
+
+[node name="BoardModel" type="MeshInstance3D" parent="." unique_id=608822562]
+transform = Transform3D(0.837, 0, 0, 0, 0.837, 0, 0, 0, 0.837, 0, -0.50565004, 2.08165e-12)
+mesh = ExtResource("1_unw2l")
+
+[node name="Floor" type="MeshInstance3D" parent="." unique_id=207770445]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, -0.5, 2.08165e-12)
+cast_shadow = 0
+mesh = SubResource("QuadMesh_n4fkp")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=346384597]
+transform = Transform3D(-0.498487, -0.674657, 0.544379, 0, 0.627963, 0.778243, -0.866896, 0.387945, -0.313032, 0, 1.42035, -1.56075)
+light_bake_mode = 1
+shadow_enabled = true
+
+[node name="Bell\'s Path" parent="." unique_id=1850316325 instance=ExtResource("2_srtgk")]
+positions = Array[Vector3]([Vector3(0, 0, 1), Vector3(-4, 0, 1), Vector3(-4, 0, 0), Vector3(3, 0, 0), Vector3(3, 0, 1), Vector3(1, 0, 1)])
+
+[node name="Masters Path" parent="." unique_id=1662995947 instance=ExtResource("2_srtgk")]
+visible = false
+positions = Array[Vector3]([Vector3(0, 0, 1), Vector3(-4, 0, 1), Vector3(-4, 0, 0), Vector3(2, 0, 0), Vector3(2, 0, -1), Vector3(3, 0, -1), Vector3(3, 0, 1), Vector3(1, 0, 1)])
+
+[node name="Skiriuks Path" parent="." unique_id=952128949 instance=ExtResource("2_srtgk")]
+visible = false
+positions = Array[Vector3]([Vector3(0, 0, 1), Vector3(-4, 0, 1), Vector3(-4, 0, 0.2), Vector3(2.2, 0, 0.2), Vector3(2.2, 0, -1), Vector3(3, 0, -1), Vector3(3, 0, 1), Vector3(1.8, 0, 1), Vector3(1.8, 0, 0.4), Vector3(1.8, 0, -0.2), Vector3(-5, 0, -0.2)])
+
+[node name="Murrays Path" parent="." unique_id=1036693667 instance=ExtResource("2_srtgk")]
+visible = false
+positions = Array[Vector3]([Vector3(0, 0, 1), Vector3(-4, 0, 1), Vector3(-4, 0, 0.2), Vector3(2.2, 0, 0.2), Vector3(2.2, 0, -1), Vector3(3, 0, -1), Vector3(3, 0, 1), Vector3(1.8, 0, 1), Vector3(1.8, 0, -0.2), Vector3(-4, 0, -0.2), Vector3(-4, 0, -1), Vector3(0, 0, -1)])

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bf0sjvijvf8oa"]
+[gd_scene format=3 uid="uid://bf0sjvijvf8oa"]
 
 [ext_resource type="Script" uid="uid://b0vmnetgattrt" path="res://scene/game.gd" id="1_qc12o"]
 [ext_resource type="PackedScene" uid="uid://cyakx4s37d20g" path="res://entity/piece_white.tscn" id="2_ktw4a"]
@@ -20,12 +20,12 @@ bg_color = Color(0.141176, 0.239216, 0.270588, 0.858824)
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_p1ry8"]
 energy_multiplier = 2.0
 
-[sub_resource type="Sky" id="Sky_xwcet"]
+[sub_resource type="Sky" id="Sky_p1ry8"]
 sky_material = SubResource("PhysicalSkyMaterial_p1ry8")
 
 [sub_resource type="Environment" id="Environment_wbha4"]
 background_mode = 1
-sky = SubResource("Sky_xwcet")
+sky = SubResource("Sky_p1ry8")
 ambient_light_source = 3
 reflected_light_source = 2
 tonemap_mode = 2
@@ -35,17 +35,17 @@ size = Vector3(8.2, 0.5, 3.2)
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_7pvwk"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p1ry8"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xlg7c"]
 albedo_color = Color(0.141176, 0.239216, 0.270588, 1)
 
 [sub_resource type="QuadMesh" id="QuadMesh_a5hur"]
 lightmap_size_hint = Vector2i(107, 63)
-material = SubResource("StandardMaterial3D_p1ry8")
+material = SubResource("StandardMaterial3D_xlg7c")
 add_uv2 = true
 size = Vector2(21.12, 12.22)
 orientation = 1
 
-[node name="Node3D" type="Node3D" node_paths=PackedStringArray("white_start_transform", "white_board_transform", "white_end_transform", "black_start_transform", "black_board_transform", "black_end_transform")]
+[node name="Node3D" type="Node3D" unique_id=927153774 node_paths=PackedStringArray("white_start_transform", "white_board_transform", "white_end_transform", "black_start_transform", "black_board_transform", "black_end_transform")]
 script = ExtResource("1_qc12o")
 white_piece = ExtResource("2_ktw4a")
 black_piece = ExtResource("3_ciayw")
@@ -59,28 +59,28 @@ black_start_transform = NodePath("BlackStartTransform")
 black_board_transform = NodePath("BoardTransform")
 black_end_transform = NodePath("BlackEndTransform")
 
-[node name="WhiteStartTransform" type="Node3D" parent="."]
+[node name="WhiteStartTransform" type="Node3D" parent="." unique_id=2060113921]
 transform = Transform3D(0.6, 0, 0, 0, 0.15, 0, 0, 0, 0.6, -2.5, -0.5, 3)
 
-[node name="WhiteEndTransform" type="Node3D" parent="."]
+[node name="WhiteEndTransform" type="Node3D" parent="." unique_id=815521273]
 transform = Transform3D(0.6, 0, 0, 0, 0.15, 0, 0, 0, 0.6, 4, -0.5, 1)
 
-[node name="BlackStartTransform" type="Node3D" parent="."]
+[node name="BlackStartTransform" type="Node3D" parent="." unique_id=1654980650]
 transform = Transform3D(0.6, 0, 0, 0, 0.15, 0, 0, 0, -0.6, -2.5, -0.5, -3)
 
-[node name="BlackEndTransform" type="Node3D" parent="."]
+[node name="BlackEndTransform" type="Node3D" parent="." unique_id=474775935]
 transform = Transform3D(0.6, 0, 0, 0, 0.15, 0, 0, 0, -0.6, 4, -0.5, -1)
 
-[node name="BoardTransform" type="Node3D" parent="."]
+[node name="BoardTransform" type="Node3D" parent="." unique_id=913092251]
 
-[node name="InGame" type="Control" parent="."]
+[node name="InGame" type="Control" parent="." unique_id=751769959]
 layout_mode = 3
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 grow_horizontal = 2
 
-[node name="RollLabel" type="Label" parent="InGame"]
+[node name="RollLabel" type="Label" parent="InGame" unique_id=574720273]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 5
@@ -93,7 +93,7 @@ offset_bottom = 43.0
 grow_horizontal = 2
 label_settings = SubResource("LabelSettings_8paqi")
 
-[node name="GameOver" type="PanelContainer" parent="."]
+[node name="GameOver" type="PanelContainer" parent="." unique_id=1476449423]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -101,12 +101,12 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_yi38b")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="GameOver"]
+[node name="VBoxContainer" type="VBoxContainer" parent="GameOver" unique_id=901883577]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="WinnerLabel" type="Label" parent="GameOver/VBoxContainer"]
+[node name="WinnerLabel" type="Label" parent="GameOver/VBoxContainer" unique_id=2113165215]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -114,44 +114,44 @@ size_flags_vertical = 0
 text = "White won"
 label_settings = SubResource("LabelSettings_8paqi")
 
-[node name="Button" type="Button" parent="GameOver/VBoxContainer"]
+[node name="Button" type="Button" parent="GameOver/VBoxContainer" unique_id=1387440880]
 layout_mode = 2
 text = "Play again"
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.974761, -0.174717, 0.138976, 0, 0.622515, 0.782608, -0.22325, -0.762856, 0.606803, 1.7, 5.98, 4.63)
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1022069834]
+transform = Transform3D(0.97476125, -0.17471725, 0.1389765, 0, 0.62251496, 0.7826079, -0.22325006, -0.7628558, 0.6068034, -0.4690392, 5.98, 4.2089624)
 keep_aspect = 0
 projection = 1
 size = 11.784
 near = 2.54
 far = 15.33
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="Camera3D"]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Camera3D" unique_id=1899511800]
 environment = SubResource("Environment_wbha4")
 
-[node name="Board2" type="StaticBody3D" parent="."]
+[node name="Board2" type="StaticBody3D" parent="." unique_id=354091787]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.25, 2.08165e-12)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Board2"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Board2" unique_id=1700820876]
 shape = SubResource("BoxShape3D_cx2al")
 
-[node name="BoardModel" type="MeshInstance3D" parent="Board2"]
+[node name="BoardModel" type="MeshInstance3D" parent="Board2" unique_id=1014031888]
 transform = Transform3D(0.837, 0, 0, 0, 0.837, 0, 0, 0, 0.837, 0.5, -0.25565, 0)
 mesh = ExtResource("6_qpk70")
 skeleton = NodePath("../..")
 
-[node name="WorldBoundry" type="StaticBody3D" parent="."]
+[node name="WorldBoundry" type="StaticBody3D" parent="." unique_id=95339038]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, -0.5, 2.08165e-12)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="WorldBoundry"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WorldBoundry" unique_id=228974917]
 shape = SubResource("WorldBoundaryShape3D_7pvwk")
 
-[node name="Floor" type="MeshInstance3D" parent="WorldBoundry"]
+[node name="Floor" type="MeshInstance3D" parent="WorldBoundry" unique_id=748946577]
 cast_shadow = 0
 mesh = SubResource("QuadMesh_a5hur")
 skeleton = NodePath("../..")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1269837424]
 transform = Transform3D(-0.498487, -0.674657, 0.544379, 0, 0.627963, 0.778243, -0.866896, 0.387945, -0.313032, 0, 1.42035, -1.56075)
 light_bake_mode = 1
 shadow_enabled = true

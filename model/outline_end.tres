@@ -1,4 +1,4 @@
-[gd_resource type="QuadMesh" load_steps=3 format=3 uid="uid://bvjyawva5aoeu"]
+[gd_resource type="QuadMesh" format=3 uid="uid://bvjyawva5aoeu"]
 
 [ext_resource type="Texture2D" uid="uid://bq2aedqu17kom" path="res://textures/outline_end.png" id="1_flymu"]
 

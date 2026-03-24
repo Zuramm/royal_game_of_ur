@@ -10,7 +10,7 @@ signal selected
 @export var positions: Array[Vector3]:
 	set(value):
 		positions = value
-		if Engine.is_editor_hint():
+		if Engine.is_editor_hint() and is_inside_tree():
 			update_path()
 
 @export var does_kill: bool
@@ -28,21 +28,27 @@ func _ready() -> void:
 		push_error("Invalid positions: ", positions)
 		return
 
-	_collision_node.shape = collision_shape
-	_collision_node.position = collision_position
+	if collision_shape == null or Engine.is_editor_hint():
+		_mesh_node.visible = true
+	else:
+		_collision_node.shape = collision_shape
+		_collision_node.position = collision_position
+		_mesh_node.visible = false
 	
-	_mesh_node.visible = false
 	if does_kill:
 		_mesh_node.material_override = preload("res://entity/board_move_material_kill.tres")
+	
 	update_path()
 
 
 func _mouse_enter() -> void:
-	_mesh_node.visible = true
+	if not Engine.is_editor_hint():
+		_mesh_node.visible = true
 
 
 func _mouse_exit() -> void:
-	_mesh_node.visible = false
+	if not Engine.is_editor_hint():
+		_mesh_node.visible = false
 
 
 func _input_event(_camera: Camera3D, event: InputEvent, _position_: Vector3, _normal: Vector3, _shape_idx: int) -> void:
